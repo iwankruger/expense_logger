@@ -1,4 +1,10 @@
-import { EMAIL_CHANGED, PASSWORD_CHANGED } from './types';
+import {
+    EMAIL_CHANGED,
+    PASSWORD_CHANGED,
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_FAIL,
+    LOGIN_USER
+} from './types';
 import {
     CognitoUserPool,
     CognitoUserAttribute,
@@ -47,7 +53,10 @@ export const loginUser = ({ email, password }) => {
 
     
     return (dispatch) => {
-        console.log('start login2');
+        console.log('start login');
+
+        dispatch({ type: LOGIN_USER });
+
         cognitoUser.authenticateUser(authDetails, {
             onSuccess(result) {
                 // that.authStatusChanged.next(true);
@@ -56,12 +65,12 @@ export const loginUser = ({ email, password }) => {
                 console.log('success');
                 console.log(result);
                 console.log(result.idToken.jwtToken);
-                dispatch({ type: 'LOGIN_USER_SUCCESS', payload: 'user' });
+                dispatch({ type: LOGIN_USER_SUCCESS, payload: 'user' });
             },
             onFailure(err) {
                 console.log('error');
                 console.log(err);
-                dispatch({ type: 'LOGIN_USER_FAIL' });
+                dispatch({ type: LOGIN_USER_FAIL });
             }
         });
 
