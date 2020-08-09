@@ -5,6 +5,11 @@ import { createStore } from 'redux';
 import reducers from './reducers';
 
 class App extends Component {
+
+    componentWillMount() {
+        // Initialise stuff here
+    }
+
     render() {
         return (
             <Provider store={createStore(reducers)}>
