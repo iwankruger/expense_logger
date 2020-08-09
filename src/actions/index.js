@@ -14,3 +14,13 @@ export const passwordChanged = (text) => {
     };
 };
 
+export const loginUser = ({ email, password }) => {
+    console.log({ email, password });
+    return (dispatch) => {
+        console.log('start login');
+
+        dispatch({ type: 'LOGIN_USER_SUCCESS', payload: 'user' });
+    };
+
+};
+
