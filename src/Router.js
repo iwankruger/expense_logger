@@ -5,10 +5,14 @@ import Screen1 from './components/Screen1';
 
 const RouterComponent = () => {
     return (
-        <Router>
-            <Scene key="root">
-                <Scene key="login" component={LoginForm} title="Please Login" initial />
-                <Scene key="screen1" component={Screen1} title="Screen1" />
+        <Router>    
+            <Scene key="root" hideNavBar>
+                <Scene key="auth">
+                    <Scene key="login" component={LoginForm} title="Please Login" initial />
+                </Scene>
+                <Scene key="main">
+                    <Scene key="screen1" component={Screen1} title="Screen1" />
+                </Scene>    
             </Scene>
         </Router>
     );

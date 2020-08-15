@@ -67,7 +67,7 @@ export const loginUser = ({ email, password }) => {
                 console.log(result);
                 console.log(result.idToken.jwtToken);
                 dispatch({ type: LOGIN_USER_SUCCESS, payload: 'user' });
-                Actions.screen1();
+                Actions.main();
             },
             onFailure(err) {
                 console.log('error');
