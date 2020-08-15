@@ -13,6 +13,7 @@ import {
     CognitoUserSession
   } from 'amazon-cognito-identity-js';
 import * as authConfig from '../../authConfig';
+import { Actions } from 'react-native-router-flux';
 
 const POOL_DATA = {
     UserPoolId: authConfig.cognitoConfig.userPoolId, 
@@ -66,6 +67,7 @@ export const loginUser = ({ email, password }) => {
                 console.log(result);
                 console.log(result.idToken.jwtToken);
                 dispatch({ type: LOGIN_USER_SUCCESS, payload: 'user' });
+                Actions.screen1();
             },
             onFailure(err) {
                 console.log('error');
