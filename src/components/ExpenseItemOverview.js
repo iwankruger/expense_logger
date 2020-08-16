@@ -1,7 +1,24 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { Card, CardSection, Button } from './common';
+import { StackedBarChart } from 'react-native-svg-charts'
 
+const data = [
+  {
+
+      spent: 10,
+      balance: 2,
+  
+  }
+]
+
+// ef476f rooi
+// ffd166 geel 
+// 06d6a0 groen
+// 118ab2 blou
+// 073b4c donker blou
+const colors = ['#06d6a0', '#ddd']
+const keys = ['spent', 'balance']
 
 class MenuItem extends Component {
 
@@ -23,13 +40,22 @@ class MenuItem extends Component {
                                 <Text >R 650.00</Text>
                             </View>
                             <View style={{ backgroundColor1: 'blue', flexDirection: 'column', flex: 1 }}>
-                                <Text style={{ fontSize: 12 }}>Remaining</Text>
+                                <Text style={{ fontSize: 10 }}>Remaining</Text>
                                 <Text >R 525.00</Text>
                             </View> 
                             <Text style={{ backgroundColor1: 'red', alignSelf: 'center' }}>Add</Text>
                         </View>
                         <View style={{ backgroundColor1: 'green', flexDirection: 'row' }} >
-                            <Text >Bar </Text>
+                            <StackedBarChart
+                                style={{ height: 5, flex: 1 }}
+                                keys={keys}
+                                colors={colors}
+                                data={data}
+                                showGrid={false}
+                                horizontal={true}
+                                contentInset={{ top: 0, bottom: 0 }}
+                            />
+                            
                         </View>
                     </View>
                     
