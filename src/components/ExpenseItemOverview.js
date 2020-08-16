@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
-import { Card, CardSection, Button } from './common';
+import { Card, CardSection, Button, ButtonRound } from './common';
 import { StackedBarChart } from 'react-native-svg-charts'
 
 const data = [
@@ -43,7 +43,7 @@ class MenuItem extends Component {
                                 <Text style={{ fontSize: 10 }}>Remaining</Text>
                                 <Text >R 525.00</Text>
                             </View> 
-                            <Text style={{ backgroundColor1: 'red', alignSelf: 'center' }}>Add</Text>
+                            <ButtonRound style={{ alignSelf: 'center' }}>+</ButtonRound>
                         </View>
                         <View style={{ backgroundColor1: 'green', flexDirection: 'row' }} >
                             <StackedBarChart
