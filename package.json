@@ -17,6 +17,8 @@
     "react-native-reanimated": "^1.13.0",
     "react-native-router-flux": "^4.2.0",
     "react-native-screens": "^2.10.1",
+    "react-native-svg": "^12.1.0",
+    "react-native-svg-charts": "^5.4.0",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
