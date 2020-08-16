@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, TextInput } from 'react-native';
+import { View, Text, Picker, TextInput, Button as ButtonRn  } from 'react-native';
 import { Card, CardSection, Button, Confirm, Input } from './common';
-
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 
 class ExpensesAdd extends Component {
 
-    onIpChange(text) {
+    state = { isDatePickerVisible: false };
+
+    showDatePicker = () => {
+        this.setState({ isDatePickerVisible: true });
+        console.log('show picket')
+        console.log(this.props)
     }
 
-    renderPickerData() {
+    hideDatePicker = () => {
+        this.setState({ isDatePickerVisible: false });
+    }
+
+    handleConfirm = (date) => {
+        console.warn('A date has been picked: ', date);
+        this.hideDatePicker();
+    }
+
+    renderPickerData = () => {
         const items = [];
         for (let i = 1; i <= 30; i++) {
             items.push(<Picker.Item key={`${i}`} label={`${i}`} value={`${i}`} />);
@@ -47,7 +61,7 @@ class ExpensesAdd extends Component {
                 <CardSection style={styles.containerStyle}>
                     <View style={styles.containerStyle2}>
                         <TextInput
-                            secureTextEntry={ () => {} }
+                            secureTextEntry={ () => { return false } }
                             placeholder={'Amount (R)'}
                             autoCorrect={false}
                             style={styles.inputStyle}
@@ -56,6 +70,15 @@ class ExpensesAdd extends Component {
                         />
                     </View>
                 </CardSection>
+                <View>
+                <ButtonRn title="Show Date Picker" onPress={this.showDatePicker} />
+                <DateTimePickerModal
+                    isVisible={this.state.isDatePickerVisible}
+                    mode="date"
+                    onConfirm={this.handleConfirm}
+                    onCancel={this.hideDatePicker}
+                />
+                </View>
 
                 
                 
