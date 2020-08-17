@@ -12,9 +12,15 @@ const RouterComponent = () => {
                 <Scene key="auth">
                     <Scene key="login" component={LoginForm} title="Please Login" />
                 </Scene>
-                <Scene key="main" initial>
-                    <Scene key="expensesAdd" component={ExpensesAdd} title="Monthly Expenses" />
-                    <Scene key="mainMenu" component={ExpensesMonth} title="Monthly Expenses" />
+                <Scene key="main" >
+                    <Scene 
+                        key="expensesAdd" 
+                        component={ExpensesAdd} 
+                        title="Monthly Expenses"
+                        onRight={() => console.log('Save')}
+                        rightTitle="Save" 
+                    />
+                    <Scene key="mainMenu" component={ExpensesMonth} title="Monthly Expenses" initial />
                     
                     <Scene key="screen1" component={Screen1} title="Screen1" />
                     
