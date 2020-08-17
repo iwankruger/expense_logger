@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { Card, CardSection, Button, ButtonRound } from './common';
-import { StackedBarChart } from 'react-native-svg-charts'
+import { StackedBarChart } from 'react-native-svg-charts';
+import { Actions } from 'react-native-router-flux';
 
 const data = [
   {
@@ -21,6 +22,11 @@ const colors = ['#06d6a0', '#ddd']
 const keys = ['spent', 'balance']
 
 class MenuItem extends Component {
+
+    onButtonPress(text) {
+        //this.props.expenseAdd('add');
+        Actions.expensesAdd({ category: 'food' });
+    }
 
     render() {
         return (
@@ -43,7 +49,7 @@ class MenuItem extends Component {
                                 <Text style={{ fontSize: 10 }}>Remaining</Text>
                                 <Text >R 525.00</Text>
                             </View> 
-                            <ButtonRound style={{ alignSelf: 'center' }}>+</ButtonRound>
+                            <ButtonRound style={{ alignSelf: 'center' }} onPress={this.onButtonPress.bind(this)}>+</ButtonRound>
                         </View>
                         <View style={{ backgroundColor1: 'green', flexDirection: 'row' }} >
                             <StackedBarChart
@@ -64,35 +70,6 @@ class MenuItem extends Component {
         );
     }
 }
-
-{/* <Card>
-    <CardSection>
-    <View style={thumbnailContainerStyle}>
-        <Image
-            style={thumbnailStyle}
-            source={{ uri: 'https://via.placeholder.com/400' }}
-        />
-      </View>
-      <View>
-          <Text>Scanner</Text>
-      </View>
-    </CardSection>
-</Card> */}
-
-{/* <View style={bodyStyle} backgroundColor='yellow'>
-                            <Text >Header</Text>
-                        </View>
-                        <View style={bodyStyle}>
-                            <View style={bodyStyle} backgroundColor='red'>
-                                <Text >Scanner</Text>
-                            </View>
-                            <View style={bodyStyle} backgroundColor='green'>
-                                <Text style={bodyStyle}>Scanner</Text>
-                            </View>
-                            <View style={bodyStyle} backgroundColor='blue'>
-                                <Text style={bodyStyle}>Scanner</Text>
-                            </View>
-                        </View> */}
 
 const styles = {
     headerContentStyle: {
@@ -137,7 +114,7 @@ const styles = {
 //     position: 'relative'
 // }
 
-  const {
+const {
     thumbnailStyle,
     headerContentStyle,
     thumbnailContainerStyle,
@@ -145,6 +122,14 @@ const styles = {
     imageStyle,
     bodyStyle,
     debug
-  } = styles;
+} = styles;
+
+
+const mapStateToProps = state => {
+    console.log('PROP', state.admin);
+    return {
+        
+    };
+};
 
 export default MenuItem;
