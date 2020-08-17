@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { View, Text, Picker, TextInput, Button as ButtonRn  } from 'react-native';
 import { Card, CardSection, Button, Confirm, Input } from './common';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+// import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Moment from 'moment';
 
 
 class ExpensesAdd extends Component {
 
-    state = { isDatePickerVisible: false };
+    state = { isDatePickerVisible: false, date: '' };
 
     showDatePicker = () => {
         this.setState({ isDatePickerVisible: true });
@@ -19,7 +22,8 @@ class ExpensesAdd extends Component {
     }
 
     handleConfirm = (date) => {
-        console.warn('A date has been picked: ', date);
+        date = Moment(date).format('YYYY-MM-DD');
+        this.setState({ date: date });
         this.hideDatePicker();
     }
 
@@ -49,7 +53,6 @@ class ExpensesAdd extends Component {
                 <CardSection style={styles.containerStyle}>
                     <View style={styles.containerStyle2}>
                         <TextInput
-                            secureTextEntry={ () => {} }
                             placeholder={'Description'}
                             autoCorrect={false}
                             style={styles.inputStyle}
@@ -61,7 +64,6 @@ class ExpensesAdd extends Component {
                 <CardSection style={styles.containerStyle}>
                     <View style={styles.containerStyle2}>
                         <TextInput
-                            secureTextEntry={ () => { return false } }
                             placeholder={'Amount (R)'}
                             autoCorrect={false}
                             style={styles.inputStyle}
@@ -69,16 +71,32 @@ class ExpensesAdd extends Component {
                             onChangeText={() => {}}
                         />
                     </View>
+
                 </CardSection>
-                <View>
-                <ButtonRn title="Show Date Picker" onPress={this.showDatePicker} />
-                <DateTimePickerModal
-                    isVisible={this.state.isDatePickerVisible}
-                    mode="date"
-                    onConfirm={this.handleConfirm}
-                    onCancel={this.hideDatePicker}
-                />
-                </View>
+                <CardSection style={styles.containerStyle}>
+                    <View style={{ flex: 1 }}>
+                            <TextInput
+                                placeholder={'Date'}
+                                autoCorrect={false}
+                                style={styles.inputStyle}
+                                value={this.state.date}
+                                onChangeText={() => {}}
+                            />
+                    </View>
+                    <View style={{  }} >
+                        <Icon name="calendar-alt" size={30} color="#118ab2" onPress={this.showDatePicker} />
+                        <DateTimePickerModal
+                            isVisible={this.state.isDatePickerVisible}
+                            mode="date"
+                            onConfirm={this.handleConfirm}
+                            onCancel={this.hideDatePicker}
+                        />
+                    </View>
+                        
+                </CardSection>
+                <CardSection style={styles.containerStyle}>
+
+                </CardSection>
 
                 
                 
@@ -94,6 +112,25 @@ class ExpensesAdd extends Component {
 //  <View style={{ flexDirection: 'column', flex: 1 }} >
 // <View style={ { 'flex-direction': 'column', flex: 1, padding: 5, position: 'relative' } } > </View> 
 
+{/* <CardSection style={styles.containerStyle}>
+    <View style={ {paddingLeft1: 20, 'flex-direction': 'row', flex: 1 } }>
+        <View style={ {paddingLeft1: 20, 'flex-direction': 'row', flex: 1} } >
+            <Icon name="calendar-alt" size={30} color="#118ab2" onPress={this.showDatePicker} />
+            <DateTimePickerModal
+                isVisible={this.state.isDatePickerVisible}
+                mode="date"
+                onConfirm={this.handleConfirm}
+                onCancel={this.hideDatePicker}
+            />
+        </View>
+        <View style={ {paddingLeft: 5, 'flex-direction': 'row', flex: 1}}>
+            <Text>Hello</Text>
+            <Text>Hello</Text>
+        </View>
+    </View>
+</CardSection> */}
+
+
 const styles = {
     pickerTextStyle: {
         fontSize: 18,
@@ -101,7 +138,7 @@ const styles = {
         flex: 1
     }, 
     containerStyle: {
-        'flex-direction': 'column',
+        flexDirection: 'row',
         borderBottomWidth: 0,
         
     },
