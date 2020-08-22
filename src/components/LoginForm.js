@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { emailChanged, passwordChanged, loginUser, checkIfUserIsLoggedIn } from '../actions';
 
 
 class LoginForm extends Component {
+
+    componentWillMount() {
+        this.props.checkIfUserIsLoggedIn();
+
+    }
 
     onEmailChange(text) {
         // call action emailChanged that will set EMAIL_CHANGED action
@@ -105,4 +110,9 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
+export default connect(mapStateToProps, { 
+    emailChanged, 
+    passwordChanged, 
+    loginUser, 
+    checkIfUserIsLoggedIn
+})(LoginForm);

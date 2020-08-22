@@ -1,9 +1,11 @@
+import { AsyncStorage } from 'react-native';
 import {
     EMAIL_CHANGED,
     PASSWORD_CHANGED,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
-    LOGIN_USER
+    LOGIN_USER,
+    USER_DATA
 } from './types';
 import {
     CognitoUserPool,
@@ -66,8 +68,15 @@ export const loginUser = ({ email, password }) => {
                 console.log('success');
                 console.log(result);
                 console.log(result.idToken.jwtToken);
-                dispatch({ type: LOGIN_USER_SUCCESS, payload: 'user' });
-                Actions.main();
+
+                AsyncStorage.setItem('loginToken', result.idToken.jwtToken).then(() => {
+                    console.log('SAVED IP IN SESSION ');
+                    dispatch({ type: LOGIN_USER_SUCCESS, payload: 'user' });
+                    Actions.main();
+                }).catch(() => {
+                    dispatch({ type: LOGIN_USER_FAIL });   
+                });     
+
             },
             onFailure(err) {
                 console.log('error');
@@ -78,6 +87,56 @@ export const loginUser = ({ email, password }) => {
 
         
     };
+
+};
+
+export const checkIfUserIsLoggedIn = () => {
+
+    return async (dispatch) => {
+       
+        const loginToken = await AsyncStorage.getItem('loginToken');
+        
+        const userData = getUserData();
+
+        if (loginToken) Actions.main();
+
+        dispatch({ type: USER_DATA, payload: userData });
+    };
+};
+
+// todo get user data from dynamodb
+const getUserData = () => {
+
+    const userData = {
+        data: [
+            {
+                categoryId: 1,
+                category: 'Food',
+                total: 120.00,
+                budget: 500.00,
+                remaining: 380.00
+            },
+            {
+                categoryId: 2,
+                category: 'Petrol',
+                total: 655.00,
+                budget: 700.00,
+                remaining: 300.00
+            },
+            {
+                categoryId: 3,
+                category: 'Electricity',
+                total: 220.00,
+                budget: 500.00,
+                remaining: 180.00
+            }
+        ],
+        settings: {
+            currency: 'R'
+        }
+    };
+
+    return userData;
 
 };
 
