@@ -5,6 +5,7 @@ import { Card, CardSection, Button, Confirm } from './common';
 import ExpenseItemOverview from './ExpenseItemOverview';
 
 
+
 class ExpensesMonth extends Component {
 
     componentWillMount() {
@@ -17,11 +18,11 @@ class ExpensesMonth extends Component {
 
         if (!this.props.userData) return;
 
-        const { data, settings } = this.props.userData;
+        const { data, settings, categories } = this.props.userData;
         console.log('DEBUG', settings);
         console.log('GGG ');
         for (let i = 0; i < data.length; i++) {
-            items.push(<ExpenseItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={data[i]} settings={settings} />);
+            items.push(<ExpenseItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={data[i]} settings={settings} categories={categories} />);
         }
         return (items);
 

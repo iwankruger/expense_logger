@@ -126,17 +126,33 @@ const getUserData = () => {
             {
                 categoryId: 3,
                 category: 'Electricity',
-                total: 220.00,
+                total: 320.00,
                 budget: 500.00,
                 remaining: 180.00
             }
         ],
         settings: {
             currency: 'R'
-        }
+        },
+        categories: [
+            {
+                categoryId: 1,
+                category: 'Food'
+            },
+            {
+                categoryId: 2,
+                category: 'Petrol'
+            },
+            {
+                categoryId: 3,
+                category: 'Electricity'
+            }
+        ]
     };
 
     return userData;
 
 };
+
+
 

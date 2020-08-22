@@ -22,12 +22,13 @@ class MenuItem extends Component {
     onButtonPress(text) {
         //this.props.expenseAdd('add');
         const { category, categoryId } = this.props.data;
-        //console.log(categoryId);
-        Actions.expensesAdd({ categoryId, category });
+        const categories = this.props.categories;
+        console.log(categories);
+        Actions.expensesAdd({ categoryId, category, categories });
     }
 
     render() {
-        const { category, budget, remaining, total } = this.props.data;
+        const { categoryId, category, budget, remaining, total } = this.props.data;
         const { currency } = this.props.settings;
         
         // calculate graph values
@@ -45,6 +46,7 @@ class MenuItem extends Component {
         const keys = ['spent', 'balance'];
 
         if (spendPercentage >= 80) colors[0] = '#ef476f';
+        else if (spendPercentage >= 60) colors[0] = '#ffd166';
 
         return (
             <Card>

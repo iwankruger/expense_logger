@@ -5,11 +5,18 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 // import Icon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Moment from 'moment';
+import { categoryUpdate } from '../actions';
+import { connect } from 'react-redux';
 
 
 class ExpensesAdd extends Component {
 
     state = { isDatePickerVisible: false, date: '' };
+
+    componentWillMount() {
+        console.log('DEBUG123', this.props);
+        this.props.categoryUpdate(this.props.category);
+    }
 
     showDatePicker = () => {
         this.setState({ isDatePickerVisible: true });
@@ -28,12 +35,17 @@ class ExpensesAdd extends Component {
     }
 
     renderPickerData = () => {
+        const categories = this.props.categories;
         const items = [];
-        for (let i = 1; i <= 30; i++) {
-            items.push(<Picker.Item key={`${i}`} label={`${i}`} value={`${i}`} />);
+        console.log('CCCC ', categories);
+        //console.log('CCCC ', categories[0].category);
+        for (let i = 0; i < categories.length; i++) {
+            items.push(<Picker.Item key={`${categories[i].categoryId}`} label={`${categories[i].category}`} value={`${categories[i].category}`} />);
         }
         return (items);
     }
+
+   
 
     render() {
         return (
@@ -42,11 +54,14 @@ class ExpensesAdd extends Component {
                     <View style={styles.containerStyle2}>
                         <Picker 
                             style={{ flex: 1 }}
-                            selectedValue={this.props.codeMax}
-                            onValueChange={value => {  }}
+                            selectedValue={this.props.categorySelected}
+                            onValueChange={value => { 
+                                console.log('S ',value);
+                                this.props.categoryUpdate(value); 
+                            }}
                         >
-                            <Picker.Item key={`1`} label={`1`} value={`Kos`} />
-                            <Picker.Item key={`2`} label={`2`} value={`Petrol`} />
+                            {this.renderPickerData()}
+                            
                         </Picker>
                     </View>
                 </CardSection>
@@ -166,4 +181,15 @@ const styles = {
     
 };
 
-export default ExpensesAdd;
+
+
+const mapStateToProps = state => {
+  
+    return {
+        categorySelected: state.expenseAdd.categorySelected
+    };
+};
+
+export default connect(mapStateToProps, { 
+    categoryUpdate 
+})(ExpensesAdd);
