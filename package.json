@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-community/datetimepicker": "^3.0.0",
     "amazon-cognito-identity-js": "^4.3.3",
+    "axios": "^0.20.0",
     "moment": "^2.27.0",
     "react": "16.13.1",
     "react-native": "0.63.2",

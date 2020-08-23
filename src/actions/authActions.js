@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import axios from 'axios';
 import {
     EMAIL_CHANGED,
     PASSWORD_CHANGED,
@@ -95,8 +96,15 @@ export const checkIfUserIsLoggedIn = () => {
     return async (dispatch) => {
        
         const loginToken = await AsyncStorage.getItem('loginToken');
+        console.log('login token ', loginToken);
+
+        const categories = await getCategories(loginToken);
+        console.log('categories ', categories);
+
+        const transactions = await getTransactions(loginToken);
+        console.log('transactions ', transactions);
         
-        const userData = getUserData();
+        const userData = getUserData(categories, transactions);
 
         if (loginToken) Actions.main();
 
@@ -104,50 +112,60 @@ export const checkIfUserIsLoggedIn = () => {
     };
 };
 
-// todo get user data from dynamodb
-const getUserData = () => {
+const getCategories = (loginToken) => {
+    return axios.get(`https://mbvhmpnj3c.execute-api.us-east-1.amazonaws.com/dev/categories`,{
+        headers: {
+          'Authorization': loginToken
+        }
+      }).then((categories) => { 
+        return categories.data;
+    }).catch((error) => {
+        throw error;
+    });       
+};
 
+const getTransactions = (loginToken) => {
+    return axios.get(`https://mbvhmpnj3c.execute-api.us-east-1.amazonaws.com/dev/transactions`,{
+        headers: {
+          'Authorization': loginToken
+        }
+      }).then((stations) => {
+        console.log('GET  stations result ', stations);
+        
+        return stations.data;
+    }).catch((error) => {
+        throw error;
+    });       
+};
+
+// todo get user data from dynamodb
+const getUserData = (categories, transactions) => {
+
+    const data = [];
+    console.log('CAT ',categories.length);
+    console.log('CAT ',categories);
+
+    for (let i = 0; i < categories.length; i++) {
+        const remaining = 100;
+        const total = 700;
+        data.push({ ...categories[i], remaining, total });
+    }
+    console.log(data);
     const userData = {
-        data: [
-            {
-                categoryId: 1,
-                category: 'Food',
-                total: 120.00,
-                budget: 500.00,
-                remaining: 380.00
-            },
-            {
-                categoryId: 2,
-                category: 'Petrol',
-                total: 655.00,
-                budget: 700.00,
-                remaining: 300.00
-            },
-            {
-                categoryId: 3,
-                category: 'Electricity',
-                total: 320.00,
-                budget: 500.00,
-                remaining: 180.00
-            }
-        ],
+        data,
+        // [
+        //     {
+        //         categoryId: 1,
+        //         category: 'Food',
+        //         total: 120.00,
+        //         budget: 500.00,
+        //         remaining: 380.00
+        //     }
+        // ],
         settings: {
             currency: 'R'
         },
-        categories: [
-            {
-                categoryId: 1,
-                category: 'Food'
-            },
-            {
-                categoryId: 2,
-                category: 'Petrol'
-            },
-            {
-                categoryId: 3,
-                category: 'Electricity'
-            }
-        ]
+        categories
     };
 
     return userData;
