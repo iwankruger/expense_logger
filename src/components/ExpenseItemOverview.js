@@ -58,15 +58,15 @@ class MenuItem extends Component {
                         <View style={{ backgroundColor1: 'orange', flexDirection: 'row', flex1: 1 }} >
                             <View style={{ backgroundColor1: 'orange', flexDirection: 'column', flex: 1 }}>
                                 <Text style={{ fontSize: 10 }}>Amount</Text>
-                                <Text>{currency} {total}</Text>
+                                <Text>{currency} {total.toFixed(2)}</Text>
                             </View> 
                             <View style={{ backgroundColor1: 'white', flexDirection: 'column', flex: 1 }}>
                                 <Text style={{ fontSize: 10 }}>Budget</Text>
-                                <Text>{currency} {budget}</Text>
+                                <Text>{currency} {budget.toFixed(2)}</Text>
                             </View>
                             <View style={{ backgroundColor1: 'blue', flexDirection: 'column', flex: 1 }}>
                                 <Text style={{ fontSize: 10 }}>Remaining</Text>
-                                <Text>{currency} {remaining}</Text>
+                                <Text>{currency} {remaining.toFixed(2)}</Text>
                             </View> 
                             <ButtonRound style={{ alignSelf: 'center' }} onPress={this.onButtonPress.bind(this)}>+</ButtonRound>
                         </View>

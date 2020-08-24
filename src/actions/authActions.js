@@ -161,9 +161,10 @@ const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
 const getUserData = (categories, transactions) => {
 
     const data = [];
-    console.log('CAT ', categories.length);
     console.log('CAT ', categories);
+    console.log('CAT ', transactions);
 
+    // calculate total for each category 
     const transactionTotals = {};
     for (let i = 0; i < transactions.length; i++) {
         let total = 0;
@@ -174,22 +175,14 @@ const getUserData = (categories, transactions) => {
     }
 
     for (let i = 0; i < categories.length; i++) {
+        // add total and remaining
         const total = transactionTotals[categories[i].categoryId] ? transactionTotals[categories[i].categoryId] : 0;
         const remaining = categories[i].budget - total;
         data.push({ ...categories[i], remaining, total });
     }
-    console.log(data);
+
     const userData = {
         data,
-        // [
-        //     {
-        //         categoryId: 1,
-        //         category: 'Food',
-        //         total: 120.00,
-        //         budget: 500.00,
-        //         remaining: 380.00
-        //     }
-        // ],
         settings: {
             currency: 'R'
         },
