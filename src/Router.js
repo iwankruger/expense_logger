@@ -4,8 +4,12 @@ import LoginForm from './components/LoginForm';
 import Screen1 from './components/Screen1';
 import ExpensesMonth from './components/ExpensesMonth';
 import ExpensesAdd from './components/ExpensesAdd';
+import { synchroniseWithServer } from './actions';
+
+import Moment from 'moment';
 
 const RouterComponent = () => {
+    const title = `${Moment(new Date()).format('MMMM')} Expenses`;
     return (
         <Router>    
             <Scene key="root" hideNavBar>
@@ -16,11 +20,14 @@ const RouterComponent = () => {
                     <Scene 
                         key="expensesAdd" 
                         component={ExpensesAdd} 
-                        title="Monthly Expenses"
-                        onRight={() => console.log('Save')}
+                        title="Add Expense"
+                        onRight={() => { }}
                         rightTitle="Save" 
                     />
-                    <Scene key="mainMenu" component={ExpensesMonth} title="Monthly Expenses" initial />
+                    <Scene key="mainMenu" component={ExpensesMonth} title={title} initial 
+                        onRight={() => { console.log('sync'); synchroniseWithServer(); }}
+                        rightTitle="Sync" 
+                    />
                     
                     <Scene key="screen1" component={Screen1} title="Screen1" />
                     

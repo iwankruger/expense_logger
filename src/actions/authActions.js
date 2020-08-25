@@ -18,6 +18,7 @@ import {
 import * as authConfig from '../../authConfig';
 import { Actions } from 'react-native-router-flux';
 import Moment from 'moment';
+import * as config from '../../config';
 
 const POOL_DATA = {
     UserPoolId: authConfig.cognitoConfig.userPoolId, 
@@ -99,16 +100,10 @@ export const loginUser = ({ email, password }) => {
 
 };
 
-export const checkIfUserIsLoggedIn = () => {
 
-    return async (dispatch) => {
-       
-        let loginData = await AsyncStorage.getItem('loginData');
-        loginData = JSON.parse(loginData);
+const getUserDataFromServer = async (login, loginToken) => {
 
-        const loginToken = loginData.loginToken;
-        const login = loginData.login;
-       
+    try {
         // set begin and end date of current month
         const date = new Date();
         let dateBegin = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -121,8 +116,28 @@ export const checkIfUserIsLoggedIn = () => {
 
         const transactions = await getTransactions(loginToken, login, dateBegin, dateEnd);
         console.log('transactions ', transactions);
-        
-        const userData = getUserData(categories, transactions);
+
+        return { categories, transactions };
+    } catch (error) {
+        return Promise.reject(error);
+    }
+}
+
+export const checkIfUserIsLoggedIn = () => {
+
+    return async (dispatch) => {
+       
+        let loginData = await AsyncStorage.getItem('loginData');
+        loginData = JSON.parse(loginData);
+
+        console.log('login Data ', loginData);
+
+        const loginToken = loginData.loginToken;
+        const login = loginData.login;
+       
+        let userData = await getUserDataFromServer(login, loginToken);
+
+        userData = userDataFormat(userData.categories, userData.transactions);
 
         if (loginToken) Actions.main();
 
@@ -131,7 +146,8 @@ export const checkIfUserIsLoggedIn = () => {
 };
 
 const getCategories = (loginToken) => {
-    return axios.get(`https://mbvhmpnj3c.execute-api.us-east-1.amazonaws.com/dev/categories`,{
+    console.log(config.server.API);
+    return axios.get(`${config.server.API}/categories`,{
         headers: {
           Authorization: loginToken
         }
@@ -143,8 +159,7 @@ const getCategories = (loginToken) => {
 };
 
 const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
-    console.log(`https://mbvhmpnj3c.execute-api.us-east-1.amazonaws.com/dev/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd}`);
-    return axios.get(`https://mbvhmpnj3c.execute-api.us-east-1.amazonaws.com/dev/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd}`,{
+    return axios.get(`${config.server.API}/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd}`,{
         headers: {
           Authorization: loginToken
         }
@@ -158,7 +173,7 @@ const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
 };
 
 // todo get user data from dynamodb
-const getUserData = (categories, transactions) => {
+const userDataFormat = (categories, transactions) => {
 
     const data = [];
     console.log('CAT ', categories);
@@ -193,5 +208,7 @@ const getUserData = (categories, transactions) => {
 
 };
 
-
+export const synchroniseWithServer = () => {
+    console.log('sync with server');
+}
 

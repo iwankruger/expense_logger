@@ -5,17 +5,43 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 // import Icon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Moment from 'moment';
-import { categoryUpdate } from '../actions';
+import { categoryUpdate, descriptionUpdate, amountUpdate, expenseAdd } from '../actions';
 import { connect } from 'react-redux';
 
 
 class ExpensesAdd extends Component {
-
-    state = { isDatePickerVisible: false, date: '' };
+    
+    state = { isDatePickerVisible: false, date: Moment(new Date()).format('YYYY-MM-DD') };
 
     componentWillMount() {
         console.log('DEBUG123', this.props);
         this.props.categoryUpdate(this.props.category);
+
+        // link save button in navigation to function
+        this.props.navigation.setParams({
+            'onRight': this.save
+        });
+    }
+
+    save = () => {
+        console.log('Add save');
+        
+        const categorySelected = this.props.categorySelected;    
+        const categories = this.props.categories;
+        const description = this.props.description;
+        const value = this.props.amount;
+        const date = this.state.date;
+    
+        // get categoryId from selected category
+        let categoryId = null;
+        for (let i = 0; i < categories.length; i++) {
+            if (categories[i].category === categorySelected) {
+                categoryId = categories[i].categoryId;
+                break;          
+            }
+        }
+
+        this.props.expenseAdd({ date, category: categorySelected, categoryId, description, value });
     }
 
     showDatePicker = () => {
@@ -71,8 +97,8 @@ class ExpensesAdd extends Component {
                             placeholder={'Description'}
                             autoCorrect={false}
                             style={styles.inputStyle}
-                            value={''}
-                            onChangeText={() => {}}
+                            value={this.props.description}
+                            onChangeText={(value) => { this.props.descriptionUpdate(value); }}
                         />
                     </View>
                 </CardSection>
@@ -82,8 +108,8 @@ class ExpensesAdd extends Component {
                             placeholder={'Amount (R)'}
                             autoCorrect={false}
                             style={styles.inputStyle}
-                            value={''}
-                            onChangeText={() => {}}
+                            value={this.props.amount}
+                            onChangeText={(value) => { this.props.amountUpdate(value); }}
                         />
                     </View>
 
@@ -186,10 +212,15 @@ const styles = {
 const mapStateToProps = state => {
   
     return {
-        categorySelected: state.expenseAdd.categorySelected
+        categorySelected: state.expenseAdd.categorySelected,
+        description: state.expenseAdd.description,
+        amount: state.expenseAdd.amount
     };
 };
 
 export default connect(mapStateToProps, { 
-    categoryUpdate 
+    categoryUpdate,
+    descriptionUpdate,
+    amountUpdate,
+    expenseAdd 
 })(ExpensesAdd);
