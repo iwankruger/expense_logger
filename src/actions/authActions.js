@@ -79,16 +79,21 @@ export const loginUser = ({ email, password }) => {
                 console.log(loginData);
 
                 AsyncStorage.setItem('loginData', JSON.stringify(loginData)).then(() => {
+                    return AsyncStorage.setItem('loggedInStatus', JSON.stringify(true));
+                }).then(() => {
                     console.log('SAVED IP IN SESSION ');
                     dispatch({ type: LOGIN_USER_SUCCESS, payload: 'user' });
                     Actions.main();
                 }).catch((e) => {
-                    console.log('EEE ',e);
-                    dispatch({ type: LOGIN_USER_FAIL });   
-                });     
+                    AsyncStorage.setItem('loggedInStatus', JSON.stringify(false));
+                    console.log('EEE ', e);
+                    dispatch({ type: LOGIN_USER_FAIL });
+                });
+                     
 
             },
             onFailure(err) {
+                AsyncStorage.setItem('loggedInStatus', JSON.stringify(false));
                 console.log('error');
                 console.log(err);
                 dispatch({ type: LOGIN_USER_FAIL });
@@ -98,6 +103,51 @@ export const loginUser = ({ email, password }) => {
         
     };
 
+};
+
+
+export const checkIfUserIsLoggedIn = () => {
+
+    return async (dispatch) => {
+       
+        let loginData = await AsyncStorage.getItem('loginData');
+        loginData = JSON.parse(loginData);
+
+        console.log('login Data ', loginData);
+
+        const loginToken = loginData.loginToken;
+        const login = loginData.login;
+
+        let loggedInStatus = await AsyncStorage.getItem('loggedInStatus');
+        loggedInStatus = JSON.parse(loggedInStatus);
+        console.log('loggedInStatus ', loggedInStatus);
+      
+        if (loginToken && loggedInStatus) Actions.main();
+
+    };
+};
+
+
+export const checkIfUserIsLoggedI2 = () => {
+
+    return async (dispatch) => {
+       
+        let loginData = await AsyncStorage.getItem('loginData');
+        loginData = JSON.parse(loginData);
+
+        console.log('login Data ', loginData);
+
+        const loginToken = loginData.loginToken;
+        const login = loginData.login;
+       
+        let userData = await getUserDataFromServer(login, loginToken);
+
+        userData = userDataFormat(userData.categories, userData.transactions);
+
+        if (loginToken) Actions.main();
+
+        dispatch({ type: USER_DATA, payload: userData });
+    };
 };
 
 
@@ -123,27 +173,7 @@ const getUserDataFromServer = async (login, loginToken) => {
     }
 }
 
-export const checkIfUserIsLoggedIn = () => {
 
-    return async (dispatch) => {
-       
-        let loginData = await AsyncStorage.getItem('loginData');
-        loginData = JSON.parse(loginData);
-
-        console.log('login Data ', loginData);
-
-        const loginToken = loginData.loginToken;
-        const login = loginData.login;
-       
-        let userData = await getUserDataFromServer(login, loginToken);
-
-        userData = userDataFormat(userData.categories, userData.transactions);
-
-        if (loginToken) Actions.main();
-
-        dispatch({ type: USER_DATA, payload: userData });
-    };
-};
 
 const getCategories = (loginToken) => {
     console.log(config.server.API);

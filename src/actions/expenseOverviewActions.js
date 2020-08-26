@@ -5,7 +5,8 @@ import {
     EXPENSE_ADD_DESCRIPTION_UPDATE,
     EXPENSE_ADD_AMOUNT_UPDATE,
     EXPENSE_ADD_SAVE,
-    EXPENSES_SYNCHRONISED
+    EXPENSES_SYNCHRONISED,
+    USER_DATA
 } from './types';
 import Moment from 'moment';
 import * as config from '../../config';
@@ -51,14 +52,14 @@ export const synchronise = () => {
 
             // get stored transactions to upload/sync
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
-            
+
             // if no transactions exist, exit
             if (!transactionUpload) return;
 
-            console.log('transactions to upload ', transactionUpload);    
+            console.log('transactions to upload ', transactionUpload);
             // decode transactions into an object
             transactionUpload = JSON.parse(transactionUpload);
-            
+
 
             console.log('transactions to upload ', transactionUpload);
 
@@ -67,31 +68,26 @@ export const synchronise = () => {
                 transactionUpload.shift();
             }
 
-             // save cleared transactions in memory
-             transactionUpload = JSON.stringify(transactionUpload);
-             console.log('transactions to upload save ', transactionUpload);
-             await AsyncStorage.setItem('transactionUpload', transactionUpload);
-
-            //todo await AsyncStorage.setItem('transactionUpload', transactionUpload);     
-
-            // go to main screen
-            // Actions.main();
-            
+            // save cleared transactions in memory
+            transactionUpload = JSON.stringify(transactionUpload);
+            await AsyncStorage.setItem('transactionUpload', transactionUpload);
 
             dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
 
-            // synchroniseStatus();
+            let userData = await getUserDataFromServer(login, loginToken);
+            userData = userDataFormat(userData.categories, userData.transactions);
+
+            dispatch({ type: USER_DATA, payload: userData });
             
         } catch (e) {
             console.log(e);
+            AsyncStorage.setItem('loggedInStatus', JSON.stringify(false));
+            dispatch({ type: EXPENSES_SYNCHRONISED, payload: false });
         }
     };
 };
 
 const addTransactions = (loginToken, transaction) => {
-    console.log('loginToken ', loginToken);
-    console.log('transaction ', transaction);
-    //throw new Error('DDDDDDD BBBBB UUUUU GGGG');
     return axios.post(`${config.server.API}/transactions`, transaction, {
         headers: {
           Authorization: loginToken
@@ -103,6 +99,93 @@ const addTransactions = (loginToken, transaction) => {
     }).catch((error) => {
         throw error;
     });       
+};
+
+
+const getUserDataFromServer = async (login, loginToken) => {
+
+    try {
+        // set begin and end date of current month
+        const date = new Date();
+        let dateBegin = new Date(date.getFullYear(), date.getMonth(), 1);
+        let dateEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        dateBegin = Moment(dateBegin).format('YYYY-MM-DD');
+        dateEnd = Moment(dateEnd).format('YYYY-MM-DD');
+
+        const categories = await getCategories(loginToken);
+        console.log('categories ', categories);
+
+        const transactions = await getTransactions(loginToken, login, dateBegin, dateEnd);
+        console.log('transactions ', transactions);
+
+        return { categories, transactions };
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+const getCategories = (loginToken) => {
+    return axios.get(`${config.server.API}/categories`,{
+        headers: {
+          Authorization: loginToken
+        }
+      }).then((categories) => { 
+        return categories.data;
+    }).catch((error) => {
+        console.log('error get cat ', error);
+        throw error;
+    });       
+};
+
+const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
+    return axios.get(`${config.server.API}/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd}`,{
+        headers: {
+          Authorization: loginToken
+        }
+      }).then((transactions) => {
+        console.log('GET  transactions result ', transactions);
+        
+        return stations.data;
+    }).catch((error) => {
+        throw error;
+    });       
+};
+
+const userDataFormat = (categories, transactions) => {
+
+    const data = [];
+    console.log('CAT ', categories);
+    console.log('CAT ', transactions);
+
+    // calculate total for each category 
+    const transactionTotals = {};
+    for (let i = 0; i < transactions.length; i++) {
+        let total = 0;
+        if (transactionTotals[transactions[i].categoryId]) {
+            total = transactionTotals[transactions[i].categoryId];
+        }
+        transactionTotals[transactions[i].categoryId] = total + transactions[i].value;
+    }
+
+    const dateMonth = Moment().format('YYYY-MM-DD');
+
+    for (let i = 0; i < categories.length; i++) {
+        // add total and remaining
+        const total = transactionTotals[categories[i].categoryId] ? transactionTotals[categories[i].categoryId] : 0;
+        const remaining = categories[i].budget - total;
+        data.push({ ...categories[i], remaining, total, date: dateMonth });
+    }
+
+    const userData = {
+        data,
+        settings: {
+            currency: 'R'
+        },
+        categories
+    };
+
+    return userData;
+
 };
 
 
