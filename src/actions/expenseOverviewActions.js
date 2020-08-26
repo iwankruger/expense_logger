@@ -145,7 +145,7 @@ const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
       }).then((transactions) => {
         console.log('GET  transactions result ', transactions);
         
-        return stations.data;
+        return transactions.data;
     }).catch((error) => {
         throw error;
     });       
