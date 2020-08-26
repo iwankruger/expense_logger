@@ -83,10 +83,8 @@ export const expenseAdd = ({date, category, categoryId, description, value}) => 
             // go to main screen
             Actions.main();
 
-            return {
-                type: EXPENSE_ADD_SAVE,
-                payload: { date, category, categoryId, description, value }
-            };
+            dispatch({ type: EXPENSE_ADD_SAVE, payload: { date, category, categoryId, description, value } });
+            
         } catch (e) {
             console.log(e);
         }
