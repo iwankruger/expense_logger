@@ -109,20 +109,33 @@ export const loginUser = ({ email, password }) => {
 export const checkIfUserIsLoggedIn = () => {
 
     return async (dispatch) => {
-       
-        let loginData = await AsyncStorage.getItem('loginData');
-        loginData = JSON.parse(loginData);
 
-        console.log('login Data ', loginData);
+        try {
+            let loginData = await AsyncStorage.getItem('loginData');
+            loginData = JSON.parse(loginData);
 
-        const loginToken = loginData.loginToken;
-        const login = loginData.login;
+            console.log('login Data ', loginData);
 
-        let loggedInStatus = await AsyncStorage.getItem('loggedInStatus');
-        loggedInStatus = JSON.parse(loggedInStatus);
-        console.log('loggedInStatus ', loggedInStatus);
-      
-        if (loginToken && loggedInStatus) Actions.main();
+            const loginToken = loginData.loginToken;
+            const login = loginData.login;
+
+            let loggedInStatus = await AsyncStorage.getItem('loggedInStatus');
+            loggedInStatus = JSON.parse(loggedInStatus);
+           
+            if (!loginToken || !loggedInStatus) return;
+
+            // get user data from local device
+            let userData = await AsyncStorage.getItem('userDataLocal');
+            console.log('LOCAL ', userData);
+
+            if (userData) {
+                userData = JSON.parse(userData);
+                dispatch({ type: USER_DATA, payload: userData });
+            }
+            Actions.main();
+        } catch (e) {
+
+        }
 
     };
 };

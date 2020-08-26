@@ -65,11 +65,8 @@ export const expenseAdd = ({date, category, categoryId, description, value}) => 
             // get stored transactions to upload/sync
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
             
-            // if no transactions exist create a new holding variable
-            if (!transactionUpload) transactionUpload = [];
-
-            // decode transactions into an object
-            transactionUpload = JSON.parse(transactionUpload);
+            // decode transactions
+            transactionUpload = transactionUpload ? JSON.parse(transactionUpload) : [];
             
             // add transaction
             transactionUpload.push(transactionData);

@@ -19,7 +19,12 @@ class ExpensesMonth extends Component {
         this.props.navigation.setParams({
             'onRight': this.synchronise
         });
-        this.syncTextRed();
+        
+        if (this.props.synchroniseStatusFlag) {
+            this.syncTextGreen();
+        } else {
+            this.syncTextRed();
+        }
         // this.props.navigation.setParams({
         //     //'rightTitle': 'test',
         //     //rightButtonTextStyle: {color: '#06d6a0'},
@@ -33,7 +38,7 @@ class ExpensesMonth extends Component {
     
 
     componentDidUpdate(prevProps) {
-        
+        console.log(`${prevProps.synchroniseStatusFlag} == ${this.props.synchroniseStatusFlag}`);
         if (prevProps.synchroniseStatusFlag === this.props.synchroniseStatusFlag) return;
         
         if (this.props.synchroniseStatusFlag) {

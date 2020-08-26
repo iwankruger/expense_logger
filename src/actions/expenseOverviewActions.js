@@ -54,28 +54,28 @@ export const synchronise = () => {
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
 
             // if no transactions exist, exit
-            if (!transactionUpload) return;
+            if (transactionUpload) {
+                transactionUpload = JSON.parse(transactionUpload);
 
-            console.log('transactions to upload ', transactionUpload);
-            // decode transactions into an object
-            transactionUpload = JSON.parse(transactionUpload);
+                console.log('transactions to upload ', transactionUpload);
 
+                while (transactionUpload.length > 0) {
+                    await addTransactions(loginToken, transactionUpload[0]);
+                    transactionUpload.shift();
+                }
 
-            console.log('transactions to upload ', transactionUpload);
+                // save cleared transactions in memory
+                transactionUpload = JSON.stringify(transactionUpload);
+                await AsyncStorage.setItem('transactionUpload', transactionUpload);
 
-            while (transactionUpload.length > 0) {
-                await addTransactions(loginToken, transactionUpload[0]);
-                transactionUpload.shift();
+                dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
             }
-
-            // save cleared transactions in memory
-            transactionUpload = JSON.stringify(transactionUpload);
-            await AsyncStorage.setItem('transactionUpload', transactionUpload);
-
-            dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
 
             let userData = await getUserDataFromServer(login, loginToken);
             userData = userDataFormat(userData.categories, userData.transactions);
+
+            // store data to local device
+            await AsyncStorage.setItem('userDataLocal', JSON.stringify(userData));
 
             dispatch({ type: USER_DATA, payload: userData });
             
