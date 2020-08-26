@@ -189,11 +189,13 @@ const userDataFormat = (categories, transactions) => {
         transactionTotals[transactions[i].categoryId] = total + transactions[i].value;
     }
 
+    const dateMonth = Moment().format('YYYY-MM-DD');
+
     for (let i = 0; i < categories.length; i++) {
         // add total and remaining
         const total = transactionTotals[categories[i].categoryId] ? transactionTotals[categories[i].categoryId] : 0;
         const remaining = categories[i].budget - total;
-        data.push({ ...categories[i], remaining, total });
+        data.push({ ...categories[i], remaining, total, date: dateMonth });
     }
 
     const userData = {

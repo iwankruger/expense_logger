@@ -4,11 +4,36 @@ import {
     CATEGORY_UPDATE,
     EXPENSE_ADD_DESCRIPTION_UPDATE,
     EXPENSE_ADD_AMOUNT_UPDATE,
-    EXPENSE_ADD_SAVE
+    EXPENSE_ADD_SAVE,
+    EXPENSES_SYNCHRONISED
 } from './types';
 import Moment from 'moment';
 import * as config from '../../config';
 import axios from 'axios';
+
+
+export const synchroniseStatus = () => {
+
+    return async (dispatch) => {
+        try {
+            console.log('SYNCHRONISE STATUS');
+            let transactionUpload = await AsyncStorage.getItem('transactionUpload');
+            
+            // if no transactions exist, exit
+            if (!transactionUpload) return dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
+   
+            // decode transactions into an object
+            transactionUpload = JSON.parse(transactionUpload);
+            
+            if (transactionUpload.length === 0) return dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
+
+            return dispatch({ type: EXPENSES_SYNCHRONISED, payload: false });
+         
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
 
 export const synchronise = () => {
     console.log('ACTION synchronise');
@@ -51,8 +76,11 @@ export const synchronise = () => {
 
             // go to main screen
             // Actions.main();
+            
 
-            dispatch({ type: 'test', payload: null });
+            dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
+
+            // synchroniseStatus();
             
         } catch (e) {
             console.log(e);
@@ -63,6 +91,7 @@ export const synchronise = () => {
 const addTransactions = (loginToken, transaction) => {
     console.log('loginToken ', loginToken);
     console.log('transaction ', transaction);
+    //throw new Error('DDDDDDD BBBBB UUUUU GGGG');
     return axios.post(`${config.server.API}/transactions`, transaction, {
         headers: {
           Authorization: loginToken
