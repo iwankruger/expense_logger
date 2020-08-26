@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { Card, CardSection, Button, Confirm } from './common';
 import ExpenseItemOverview from './ExpenseItemOverview';
+import { synchronise } from '../actions/expenseOverviewActions';
 
 
 
@@ -10,6 +11,16 @@ class ExpensesMonth extends Component {
 
     componentWillMount() {
         //console.log('DEBUG', this.props.debug);
+
+        // link save button in navigation to function
+        this.props.navigation.setParams({
+            'onRight': this.synchronise
+        });
+    }
+
+    synchronise = () => {
+       console.log('synchronise'); 
+       this.props.synchronise();
     }
 
     
@@ -49,6 +60,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { 
-   
+    synchronise
 })(ExpensesMonth);
 
