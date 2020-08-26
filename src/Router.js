@@ -9,7 +9,7 @@ import { synchroniseWithServer } from './actions';
 import Moment from 'moment';
 
 const RouterComponent = () => {
-    const title = `${Moment(new Date()).format('MMMM')} Expenses`;
+    const title = `${Moment().format('MMMM')} Expenses`;
     return (
         <Router>    
             <Scene key="root" hideNavBar>
