@@ -65,6 +65,9 @@ class LoginForm extends Component {
                         placeholder="email@domain.com"
                         onChangeText={this.onEmailChange.bind(this)}
                         value={this.props.email}
+                        autoCorrect={false}
+                        //underlineColorAndroid="transparent"
+                        //keyboardType="visible-password"
                     />
                 </CardSection>
                 <CardSection>
@@ -74,6 +77,9 @@ class LoginForm extends Component {
                         placeholder="password"
                         onChangeText={this.onPasswordChange.bind(this)}
                         value={this.props.password}
+                        autoCorrect={false}
+                        //underlineColorAndroid="transparent"
+                        //keyboardType="visible-password"
                     />
                 </CardSection>
     

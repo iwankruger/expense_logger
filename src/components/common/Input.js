@@ -13,6 +13,8 @@ const Input = ({ lable, value, onChangeText, placeholder, secureTextEntry }) => 
                 style={inputStyle}
                 value={value}
                 onChangeText={onChangeText}
+                //underlineColorAndroid="transparent"
+                //keyboardType="visible-password"
             />
         </View>
     );

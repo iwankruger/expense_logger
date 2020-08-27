@@ -99,6 +99,8 @@ class ExpensesAdd extends Component {
                             style={styles.inputStyle}
                             value={this.props.description}
                             onChangeText={(value) => { this.props.descriptionUpdate(value); }}
+                            //underlineColorAndroid="transparent"
+                            //keyboardType="visible-password"
                         />
                     </View>
                 </CardSection>
@@ -110,6 +112,8 @@ class ExpensesAdd extends Component {
                             style={styles.inputStyle}
                             value={this.props.amount}
                             onChangeText={(value) => { this.props.amountUpdate(value); }}
+                            //underlineColorAndroid="transparent"
+                            //keyboardType="visible-password"
                         />
                     </View>
 
@@ -122,6 +126,8 @@ class ExpensesAdd extends Component {
                                 style={styles.inputStyle}
                                 value={this.state.date}
                                 onChangeText={() => {}}
+                                //underlineColorAndroid="transparent"
+                                //keyboardType="visible-password"
                             />
                     </View>
                     <View style={{  }} >
