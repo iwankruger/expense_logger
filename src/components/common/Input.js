@@ -25,8 +25,8 @@ const styles = {
         color: '#000',
         paddingRight: 5,
         paddingLeft: 5,
-        paddingTop: 0, 
-        paddingBottom: 0,
+        //paddingTop: 0, 
+        //paddingBottom: 0,
         fontSize: 18,
         lineHeight: 23,
         flex: 2

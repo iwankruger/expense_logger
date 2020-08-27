@@ -99,7 +99,7 @@ class ExpensesAdd extends Component {
                             style={styles.inputStyle}
                             value={this.props.description}
                             onChangeText={(value) => { this.props.descriptionUpdate(value); }}
-                            //underlineColorAndroid="transparent"
+                            underlineColorAndroid='transparent'
                             //keyboardType="visible-password"
                         />
                     </View>
@@ -112,21 +112,21 @@ class ExpensesAdd extends Component {
                             style={styles.inputStyle}
                             value={this.props.amount}
                             onChangeText={(value) => { this.props.amountUpdate(value); }}
-                            //underlineColorAndroid="transparent"
+                            underlineColorAndroid="transparent"
                             //keyboardType="visible-password"
                         />
                     </View>
 
                 </CardSection>
                 <CardSection style={styles.containerStyle}>
-                    <View style={{ flex: 1 }}>
+                    <View style={styles.containerStyle2}>
                             <TextInput
                                 placeholder={'Date'}
                                 autoCorrect={false}
                                 style={styles.inputStyle}
                                 value={this.state.date}
                                 onChangeText={() => {}}
-                                //underlineColorAndroid="transparent"
+                                underlineColorAndroid="transparent"
                                 //keyboardType="visible-password"
                             />
                     </View>
@@ -187,17 +187,20 @@ const styles = {
     containerStyle: {
         flexDirection: 'row',
         borderBottomWidth: 0,
+        //height: 40,
+        
         
     },
     inputStyle: {
         color: '#000',
         paddingRight: 5,
         paddingLeft: 5,
-        paddingTop: 0, 
-        paddingBottom: 0,
+        //paddingTop: 0, 
+        //paddingBottom: 0,
         fontSize: 18,
         lineHeight: 23,
-        flex: 2
+        flex: 1,
+        //backgroundColor: 'red'
     },
     lableStyle: {
         fontSize: 18,
