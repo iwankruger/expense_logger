@@ -59,11 +59,12 @@ const styles = {
     },
     thumbnailContainerStyle: {
       justifyContent: 'center',
-      //alignItems: 'center',
+      alignItems: 'center',
       marginLeft: 20,
       marginRight: 20,
       marginTop: 5,
       marginBottom: 5,
+      width: 30
     },
     imageStyle: {
       height: 300,
