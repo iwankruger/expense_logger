@@ -30,7 +30,7 @@ import { setMonth } from '../actions/expenseOverviewActions';
 
 class DrawerMenu extends Component {
 
-    state = { monthSelected: `${new Date()}`, monthSelectedShow: false };
+    state = { monthSelected: `${Moment().format('MM-YYYY')}`, monthSelectedShow: false };
 
     showMonthSelector = () => {
         this.setState({ monthSelectedShow: true });
@@ -66,7 +66,7 @@ class DrawerMenu extends Component {
                     {this.state.monthSelectedShow && (
                     <MonthPicker
                         onChange={this.onValueChange}
-                        value={'12-1999'}
+                        value={this.state.monthSelected}
                         minimumDate={new Date(2000, 1)}
                         maximumDate={new Date(2099, 12)}
                         enableAutoDarkMode={false}

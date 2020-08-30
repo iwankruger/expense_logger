@@ -12,7 +12,7 @@ const INITIAL_STATE = {
     error: '',
     loading: false,
     synchroniseStatus: null,
-    date: Moment().format('YYYY-MM-DD')
+    date: Moment().format('YYYY-MM-01')
 };
 
 

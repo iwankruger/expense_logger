@@ -38,7 +38,7 @@ export const synchroniseStatus = () => {
 }
 
 export const synchronise = (date) => {
-    console.log('ACTION synchronise');
+    console.log('ACTION synchronise ', date);
 
 
 
@@ -72,11 +72,27 @@ export const synchronise = (date) => {
                 dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
             }
 
-            let userData = await getUserDataFromServer(login, loginToken, date);
-            userData = userDataFormat(userData.categories, userData.transactions);
+            const userDataMonth = await getUserDataFromServer(login, loginToken, date);
+            const userData = userDataFormat(userDataMonth.categories, userDataMonth.transactions);
+
+            // get user data in storage
+            let userDataLocal = await AsyncStorage.getItem('userDataLocal');
+            console.log('LOCAL ', userDataLocal);
+
+            if (userDataLocal) {
+                userDataLocal = JSON.parse(userDataLocal);
+            } else {
+                userDataLocal = {};
+            }
+
+            userDataLocal.categories = userData.categories;
+            userDataLocal.settings = userData.settings;
+            userDataLocal[date] = userData.data;
+
+            console.log('SAVE DATA ', userDataLocal);
 
             // store data to local device
-            await AsyncStorage.setItem('userDataLocal', JSON.stringify(userData));
+            await AsyncStorage.setItem('userDataLocal', JSON.stringify(userDataLocal));
 
             dispatch({ type: USER_DATA, payload: userData });
             
@@ -153,7 +169,7 @@ const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
     });       
 };
 
-const userDataFormat = (categories, transactions) => {
+const userDataFormat = (categories, transactions, date) => {
 
     const data = [];
     console.log('CAT ', categories);

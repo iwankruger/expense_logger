@@ -125,11 +125,19 @@ export const checkIfUserIsLoggedIn = () => {
             if (!loginToken || !loggedInStatus) return;
 
             // get user data from local device
-            let userData = await AsyncStorage.getItem('userDataLocal');
-            console.log('LOCAL ', userData);
+            let userDataLocal = await AsyncStorage.getItem('userDataLocal');
+            console.log('LOCAL ', userDataLocal);
 
-            if (userData) {
-                userData = JSON.parse(userData);
+            if (userDataLocal) {
+                userDataLocal = JSON.parse(userDataLocal);
+                console.log('PARSE LOCAL ', userDataLocal);
+                const dateCurrent = Moment().format('YYYY-MM-01');
+
+                let userData = { categories: [], settings: null, data: [] };
+                if (userDataLocal && userDataLocal.settings && userDataLocal.categories && userDataLocal[dateCurrent]) {
+                    userData = { categories: userDataLocal.categories, settings: userDataLocal.settings, data: userDataLocal[dateCurrent] };
+                }
+
                 dispatch({ type: USER_DATA, payload: userData });
             }
             Actions.main();
