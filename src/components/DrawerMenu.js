@@ -7,7 +7,7 @@ import MonthPicker, { ACTION_DATE_SET, ACTION_DISMISSED } from 'react-native-mon
 import Moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DrawMenuItem from './DrawMenuItem';
-import { setMonth } from '../actions/expenseOverviewActions';
+import { setMonth, logout, clearLocalData } from '../actions';
 
 
 // const [date, setDate] = useState(new Date());
@@ -85,6 +85,8 @@ class DrawerMenu extends Component {
                 <DrawMenuItem title='Month' menuSelected={'test'} icon={'calendar-alt'} text='' itemSelectedAction={() => { this.showMonthSelector(); }} />
                 <DrawMenuItem title='Charts' menuSelected={'test'} icon={'chart-line'} text='' itemSelectedAction={() => { /*Actions.expensesAdd({ });*/ }}/>
                 <DrawMenuItem title='Settings' menuSelected={'test'} icon={'cog'} text='' itemSelectedAction={() => {}}/>
+                <DrawMenuItem title='Clear Local Data' menuSelected={'test'} icon={'trash-alt'} text='' itemSelectedAction={() => { this.props.clearLocalData(); }}/>
+                <DrawMenuItem title='Logout' menuSelected={'test'} icon={'door-closed'} text='' itemSelectedAction={() => { this.props.logout(); }}/>
             </ScrollView>
         );
     }
@@ -203,6 +205,8 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { 
-    setMonth
+    setMonth,
+    logout,
+    clearLocalData
 })(DrawerMenu);
 

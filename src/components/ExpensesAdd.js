@@ -99,7 +99,8 @@ class ExpensesAdd extends Component {
                             style={styles.inputStyle}
                             value={this.props.description}
                             onChangeText={(value) => { this.props.descriptionUpdate(value); }}
-                            underlineColorAndroid='transparent'
+                            //underlineColorAndroid='transparent'
+                            underlineColorAndroid='rgba(0,0,0,0)' 
                             //keyboardType="visible-password"
                         />
                     </View>
@@ -112,7 +113,8 @@ class ExpensesAdd extends Component {
                             style={styles.inputStyle}
                             value={this.props.amount}
                             onChangeText={(value) => { this.props.amountUpdate(value); }}
-                            underlineColorAndroid="transparent"
+                            //underlineColorAndroid="transparent"
+                            underlineColorAndroid={'transparent'}
                             //keyboardType="visible-password"
                         />
                     </View>

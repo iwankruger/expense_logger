@@ -265,3 +265,34 @@ export const synchroniseWithServer = () => {
     console.log('sync with server');
 }
 
+export const logout = () => {
+
+    return async (dispatch) => {
+
+        try {
+
+            await AsyncStorage.setItem('loginData', '');
+            await AsyncStorage.setItem('loggedInStatus', '');
+    
+            Actions.auth();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+
+export const clearLocalData = () => {
+
+    return async (dispatch) => {
+
+        try {
+
+            await AsyncStorage.setItem('userDataLocal', '');
+
+            Actions.auth();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+
