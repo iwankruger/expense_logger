@@ -30,7 +30,7 @@ import { setMonth } from '../actions/expenseOverviewActions';
 
 class DrawerMenu extends Component {
 
-    state = { monthSelected: `${Moment().format('MM-YYYY')}`, monthSelectedShow: false };
+    state = { monthSelectedShow: false };
 
     showMonthSelector = () => {
         this.setState({ monthSelectedShow: true });
@@ -66,7 +66,7 @@ class DrawerMenu extends Component {
                     {this.state.monthSelectedShow && (
                     <MonthPicker
                         onChange={this.onValueChange}
-                        value={this.state.monthSelected}
+                        value={Moment(this.props.date).format('MM-YYYY')}
                         minimumDate={new Date(2000, 1)}
                         maximumDate={new Date(2099, 12)}
                         enableAutoDarkMode={false}
@@ -195,7 +195,14 @@ const styles = {
     textAlign
   } = styles;
 
-export default connect(null, { 
+
+const mapStateToProps = state => {
+    return {
+        date: state.expenseItemOverviewReducer.date
+    };
+};
+
+export default connect(mapStateToProps, { 
     setMonth
 })(DrawerMenu);
 
