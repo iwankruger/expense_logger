@@ -2,7 +2,8 @@ import Moment from 'moment';
 import {
     USER_DATA,
     EXPENSE_ADD_SAVE,
-    EXPENSES_SYNCHRONISED
+    EXPENSES_SYNCHRONISED,
+    DATE_CHANGED
 } from '../actions/types';
 const INITIAL_STATE = { 
     email: '',
@@ -10,7 +11,8 @@ const INITIAL_STATE = {
     user: null,
     error: '',
     loading: false,
-    synchroniseStatus: null
+    synchroniseStatus: null,
+    date: Moment().format('YYYY-MM-DD')
 };
 
 
@@ -60,6 +62,9 @@ export default (state = INITIAL_STATE, action) => {
             //else { action.payload = true; }
 
             return { ...state, synchroniseStatus: action.payload };
+        case DATE_CHANGED:
+            console.log('DATE REDUCER ', action.payload);
+            return { ...state, date: action.payload };
         default:
             console.log('else');
             return state;

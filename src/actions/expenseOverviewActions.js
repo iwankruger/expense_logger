@@ -6,7 +6,8 @@ import {
     EXPENSE_ADD_AMOUNT_UPDATE,
     EXPENSE_ADD_SAVE,
     EXPENSES_SYNCHRONISED,
-    USER_DATA
+    USER_DATA,
+    DATE_CHANGED
 } from './types';
 import Moment from 'moment';
 import * as config from '../../config';
@@ -36,7 +37,7 @@ export const synchroniseStatus = () => {
     }
 }
 
-export const synchronise = () => {
+export const synchronise = (date) => {
     console.log('ACTION synchronise');
 
 
@@ -53,7 +54,7 @@ export const synchronise = () => {
             // get stored transactions to upload/sync
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
 
-            // if no transactions exist, exit
+            // upload transactions
             if (transactionUpload) {
                 transactionUpload = JSON.parse(transactionUpload);
 
@@ -71,7 +72,7 @@ export const synchronise = () => {
                 dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
             }
 
-            let userData = await getUserDataFromServer(login, loginToken);
+            let userData = await getUserDataFromServer(login, loginToken, date);
             userData = userDataFormat(userData.categories, userData.transactions);
 
             // store data to local device
@@ -102,11 +103,12 @@ const addTransactions = (loginToken, transaction) => {
 };
 
 
-const getUserDataFromServer = async (login, loginToken) => {
+const getUserDataFromServer = async (login, loginToken, date) => {
 
     try {
         // set begin and end date of current month
-        const date = new Date();
+        date = new Date(date);
+        console.log('DATEE ', date);
         let dateBegin = new Date(date.getFullYear(), date.getMonth(), 1);
         let dateEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         dateBegin = Moment(dateBegin).format('YYYY-MM-DD');
@@ -188,7 +190,15 @@ const userDataFormat = (categories, transactions) => {
 
 };
 
-
+export const setMonth = (date) => {
+    console.log('ACTION setMonth ', date);
+    date = Moment(date, 'MM-YYYY').format('YYYY-MM-DD');
+    console.log(date);
+    return {
+        type: DATE_CHANGED,
+        payload: date
+    };
+};
 // #set($bulk = $input.path('$'))
 // {
 //     "RequestItems": {  

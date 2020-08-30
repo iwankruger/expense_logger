@@ -9,3 +9,4 @@ export const EXPENSE_ADD_DESCRIPTION_UPDATE = 'expense_add_description_updated';
 export const EXPENSE_ADD_AMOUNT_UPDATE = 'expense_add_amount_updated';
 export const EXPENSE_ADD_SAVE = 'expense_add_save';
 export const EXPENSES_SYNCHRONISED = 'expenses_synchronised';
+export const DATE_CHANGED = 'date_changed';

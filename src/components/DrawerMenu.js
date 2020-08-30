@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, SafeAreaView, TouchableOpacity, Avatar, ScrollView, Image } from 'react-native';
 import { Card, CardSection, Button, Confirm } from './common';
 import {Actions} from 'react-native-router-flux';
@@ -6,6 +7,7 @@ import MonthPicker, { ACTION_DATE_SET, ACTION_DISMISSED } from 'react-native-mon
 import Moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DrawMenuItem from './DrawMenuItem';
+import { setMonth } from '../actions/expenseOverviewActions';
 
 
 // const [date, setDate] = useState(new Date());
@@ -41,6 +43,8 @@ class DrawerMenu extends Component {
         console.log(event);
         console.log(newDate);
 
+        this.setState({ monthSelectedShow: false });
+
         if (event === ACTION_DISMISSED) {
             console.log('DDDDD');
             
@@ -48,10 +52,10 @@ class DrawerMenu extends Component {
 
         if (event === ACTION_DATE_SET) {
             console.log('SSSS');
+            this.props.setMonth(newDate);
             
         }
-
-        this.setState({ monthSelectedShow: false });
+        
 
     }
 
@@ -191,4 +195,7 @@ const styles = {
     textAlign
   } = styles;
 
-export default DrawerMenu;
+export default connect(null, { 
+    setMonth
+})(DrawerMenu);
+

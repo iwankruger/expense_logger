@@ -4,7 +4,7 @@ import { View, Text, Image, ScrollView } from 'react-native';
 import { Card, CardSection, Button, Confirm } from './common';
 import ExpenseItemOverview from './ExpenseItemOverview';
 import { synchronise, synchroniseStatus } from '../actions/expenseOverviewActions';
-
+import Moment from 'moment';
 
 
 class ExpensesMonth extends Component {
@@ -33,19 +33,27 @@ class ExpensesMonth extends Component {
         // this.props.navigation.setParams({
         //     'titleStyle': {color:'red'}
         // });
+
+
+        
     }
 
     
 
     componentDidUpdate(prevProps) {
         console.log(`${prevProps.synchroniseStatusFlag} == ${this.props.synchroniseStatusFlag}`);
-        if (prevProps.synchroniseStatusFlag === this.props.synchroniseStatusFlag) return;
-        
-        if (this.props.synchroniseStatusFlag) {
-            this.syncTextGreen();
-            return;
+        if (prevProps.synchroniseStatusFlag !== this.props.synchroniseStatusFlag) {
+            if (this.props.synchroniseStatusFlag) return this.syncTextGreen();
+
+            this.syncTextRed();
         }
-        this.syncTextRed();
+
+        if (prevProps.date !== this.props.date) {
+            const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Expenses`;
+            this.props.navigation.setParams({ title });
+        }
+
+        
 
     }
 
@@ -65,7 +73,7 @@ class ExpensesMonth extends Component {
 
     synchronise = () => {
        console.log('synchronise'); 
-       this.props.synchronise();
+       this.props.synchronise(this.props.date);
     }
 
     
@@ -97,11 +105,12 @@ class ExpensesMonth extends Component {
 // the task of this helper is to get the state back 
 // into the form from the state object
 const mapStateToProps = state => {
-    console.log('VIEW ', state.expenseItemOverviewReducer.synchroniseStatus);
+    console.log('VIEW ', state.expenseItemOverviewReducer.date);
     return {
         // properties specified auth in reducers/index.js and email in reducers/AuthReducer.js
         // now available in the component as this.props.email
         userData: state.expenseItemOverviewReducer.userData,
+        date: state.expenseItemOverviewReducer.date,
         synchroniseStatusFlag: state.expenseItemOverviewReducer.synchroniseStatus,
     };
 };
