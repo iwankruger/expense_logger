@@ -14,15 +14,26 @@ const RouterComponent = () => {
     return (
         <Router>    
             <Scene key="root" hideNavBar>
+
                 <Scene key="auth" initial>
                     <Scene key="login" component={LoginForm} title="Please Login" />
                 </Scene>
-                <Drawer key="drawer" drawer 
-                    contentComponent={DrawerMenu} 
-                    drawerWidth1={220}
-                    tapToClose={true}
-                >
+
+                
                 <Scene key="main" >
+                    <Drawer key="drawer" drawer 
+                        contentComponent={DrawerMenu} 
+                        drawerWidth1={220}
+                        tapToClose={true}
+                        hideNavBar
+                    >
+                        <Scene key="mainMenu" component={ExpensesMonth} title={title} initial 
+                            onRight={() => { console.log('sync'); synchroniseWithServer(); }}
+                            rightTitle="Sync" 
+                            drawer={true}
+                        />
+                    </Drawer> 
+
                     <Scene 
                         key="expensesAdd" 
                         component={ExpensesAdd} 
@@ -30,16 +41,10 @@ const RouterComponent = () => {
                         onRight={() => { }}
                         rightTitle="Save" 
                     />
-                    <Scene key="mainMenu" component={ExpensesMonth} title={title} initial 
-                        onRight={() => { console.log('sync'); synchroniseWithServer(); }}
-                        rightTitle="Sync" 
-                        drawer={true}
-                    />
-                    
+
                     <Scene key="screen1" component={Screen1} title="Screen1" />
-                  
+                
                 </Scene> 
-                </Drawer>   
                  
             </Scene>
         </Router>
