@@ -3,7 +3,8 @@ import {
     USER_DATA,
     EXPENSE_ADD_SAVE,
     EXPENSES_SYNCHRONISED,
-    DATE_CHANGED
+    DATE_CHANGED,
+    SET_LOGIN
 } from '../actions/types';
 const INITIAL_STATE = { 
     email: '',
@@ -11,6 +12,7 @@ const INITIAL_STATE = {
     user: null,
     error: '',
     loading: false,
+    login: '',
     synchroniseStatus: null,
     date: Moment().format('YYYY-MM-01')
 };
@@ -46,6 +48,8 @@ export default (state = INITIAL_STATE, action) => {
             console.log('reducer email changed');
             // must return a new object
             return { ...state, userData: action.payload };
+        case SET_LOGIN:
+            return { ...state, login: action.payload };
         case EXPENSE_ADD_SAVE:
             console.log('transaction added');
             console.log(action);

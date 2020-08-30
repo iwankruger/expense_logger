@@ -6,7 +6,8 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGIN_USER,
-    USER_DATA
+    USER_DATA,
+    SET_LOGIN
 } from './types';
 import {
     CognitoUserPool,
@@ -118,6 +119,7 @@ export const checkIfUserIsLoggedIn = () => {
 
             const loginToken = loginData.loginToken;
             const login = loginData.login;
+            dispatch({ type: SET_LOGIN, payload: login });
 
             let loggedInStatus = await AsyncStorage.getItem('loggedInStatus');
             loggedInStatus = JSON.parse(loggedInStatus);

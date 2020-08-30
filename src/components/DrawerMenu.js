@@ -9,40 +9,16 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import DrawMenuItem from './DrawMenuItem';
 import { setMonth, logout, clearLocalData } from '../actions';
 
-
-// const [date, setDate] = useState(new Date());
-//     const [show, setShow] = useState(false);
-    
-//     const showPicker = useCallback((value) => setShow(value), []);
-    
-//     const onValueChange = useCallback(
-//         (event, newDate) => {
-//         const selectedDate = newDate || date;
-    
-//         showPicker(false);
-//         setDate(selectedDate);
-//         },
-//         [date, showPicker],
-//     );
-
-
-
-
 class DrawerMenu extends Component {
 
     state = { monthSelectedShow: false };
 
     showMonthSelector = () => {
         this.setState({ monthSelectedShow: true });
-        console.log('show picket')
-        console.log(this.props)
     }
 
     onValueChange = (event, newDate) => {
-        console.log('VVVVVVVVVVVVVVv');
-        console.log(event);
-        console.log(newDate);
-
+        
         this.setState({ monthSelectedShow: false });
 
         if (event === ACTION_DISMISSED) {
@@ -79,7 +55,7 @@ class DrawerMenu extends Component {
                         <Icon name={'user'} size={100} color="#118ab2" />
                     </View>
                     <View style={textAlign}>
-                        <Text style={headerTextStyle}>{'hello'}</Text>
+                        <Text style={headerTextStyle}>{this.props.login}</Text>
                     </View>
                 </View>
                 <DrawMenuItem title='Month' menuSelected={'test'} icon={'calendar-alt'} text='' itemSelectedAction={() => { this.showMonthSelector(); }} />
@@ -200,7 +176,8 @@ const styles = {
 
 const mapStateToProps = state => {
     return {
-        date: state.expenseItemOverviewReducer.date
+        date: state.expenseItemOverviewReducer.date,
+        login: state.expenseItemOverviewReducer.login
     };
 };
 
