@@ -218,13 +218,36 @@ const userDataFormat = (categories, transactions, date) => {
 
 };
 
+
+
 export const setMonth = (date) => {
     console.log('ACTION setMonth ', date);
-    date = Moment(date, 'MM-YYYY').format('YYYY-MM-DD');
+    date = Moment(date, 'MM-YYYY').format('YYYY-MM-01');
     console.log(date);
-    return {
-        type: DATE_CHANGED,
-        payload: date
+  
+    return async (dispatch) => {
+
+        try {
+            // get user data from local device
+            let userDataLocal = await AsyncStorage.getItem('userDataLocal');
+            
+            if (userDataLocal) {
+                userDataLocal = JSON.parse(userDataLocal);
+            
+                let userData = { categories: [], settings: null, data: [] };
+                if (userDataLocal && userDataLocal.settings && userDataLocal.categories && userDataLocal[date]) {
+                    userData = { categories: userDataLocal.categories, settings: userDataLocal.settings, data: userDataLocal[date] };
+                }
+                
+                dispatch({ type: USER_DATA, payload: userData });
+            }
+
+        
+            dispatch({ type: DATE_CHANGED, payload: date });
+        
+        } catch (e) {
+            console.log(e);
+        }
     };
 };
 // #set($bulk = $input.path('$'))
