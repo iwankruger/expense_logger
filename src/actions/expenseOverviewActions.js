@@ -130,7 +130,7 @@ const getUserDataFromServer = async (login, loginToken, date) => {
         dateBegin = Moment(dateBegin).format('YYYY-MM-DD');
         dateEnd = Moment(dateEnd).format('YYYY-MM-DD');
 
-        const categories = await getCategories(loginToken);
+        const categories = await getCategories(loginToken, login);
         console.log('categories ', categories);
 
         const transactions = await getTransactions(loginToken, login, dateBegin, dateEnd);
@@ -142,8 +142,8 @@ const getUserDataFromServer = async (login, loginToken, date) => {
     }
 };
 
-const getCategories = (loginToken) => {
-    return axios.get(`${config.server.API}/categories`,{
+const getCategories = (loginToken, login) => {
+    return axios.get(`${config.server.API}/categories?userId=${login}&type=expense`,{
         headers: {
           Authorization: loginToken
         }
@@ -156,7 +156,7 @@ const getCategories = (loginToken) => {
 };
 
 const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
-    return axios.get(`${config.server.API}/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd}`,{
+    return axios.get(`${config.server.API}/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd}&type=expense`,{
         headers: {
           Authorization: loginToken
         }
@@ -182,7 +182,10 @@ const userDataFormat = (categories, transactions, date) => {
         if (transactionTotals[transactions[i].categoryId]) {
             total = transactionTotals[transactions[i].categoryId];
         }
-        transactionTotals[transactions[i].categoryId] = total + transactions[i].value;
+        
+        const expenseAmount = transactions[i].expenseAmount ? transactions[i].expenseAmount : 0;
+        
+        transactionTotals[transactions[i].categoryId] = total + expenseAmount;
     }
 
     const dateMonth = Moment().format('YYYY-MM-DD');
