@@ -59,6 +59,8 @@ class DrawerMenu extends Component {
                     </View>
                 </View>
                 <DrawMenuItem title='Month' menuSelected={'test'} icon={'calendar-alt'} text='' itemSelectedAction={() => { this.showMonthSelector(); }} />
+                <DrawMenuItem title='Income' menuSelected={'test'} icon={'wallet'} text='' itemSelectedAction={() => { Actions.pop(); Actions.income(); }}/>
+                <DrawMenuItem title='Expenses' menuSelected={'test'} icon={'credit-card'} text='' itemSelectedAction={() => { Actions.pop(); Actions.expenses(); }} />
                 <DrawMenuItem title='Charts' menuSelected={'test'} icon={'chart-line'} text='' itemSelectedAction={() => { /*Actions.expensesAdd({ });*/ }}/>
                 <DrawMenuItem title='Settings' menuSelected={'test'} icon={'cog'} text='' itemSelectedAction={() => {}}/>
                 <DrawMenuItem title='Clear Local Data' menuSelected={'test'} icon={'trash-alt'} text='' itemSelectedAction={() => { this.props.clearLocalData(); }}/>
