@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, ScrollView } from 'react-native';
-import { Card, CardSection, Button, Confirm } from './common';
-import ExpenseItemOverview from './ExpenseItemOverview';
+import { Card, CardSection, Button, Confirm, ButtonRound } from './common';
+import IncomeItemOverview from './IncomeItemOverview';
 import { synchronise, synchroniseStatus } from '../actions/expenseOverviewActions';
 import Moment from 'moment';
+import { Actions } from 'react-native-router-flux';
 
 
 class IncomeOverview extends Component {
@@ -76,8 +77,18 @@ class IncomeOverview extends Component {
        this.props.synchronise(this.props.date);
     }
 
+    onButtonPressAddIncome(text) {
+        const { data, settings, categories } = this.props.userData;
+        //this.props.expenseAdd('add');
+        //const { category, categoryId } = this.props.data;
+        //const categories = this.props.categories;
+        //console.log(categories);
+        Actions.expensesAdd({ categoryId: 1, category: 'salary', categories });
+        //Actions.expensesAdd({ });
+    }
+
     
-    renderMonthData() {
+    renderIncomeData() {
         const items = [];
 
         if (!this.props.userData) return;
@@ -86,7 +97,8 @@ class IncomeOverview extends Component {
         console.log('DEBUG', settings);
         console.log('GGG ');
         for (let i = 0; i < data.length; i++) {
-            items.push(<ExpenseItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={data[i]} settings={settings} categories={categories} />);
+            const settingsAdditional = i === 0 ? { fontWeight: 'bold' } : { };
+            items.push(<IncomeItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={data[i]} settings={settings} categories={categories} settingsAdditional={settingsAdditional} />);
         }
         return (items);
 
@@ -95,8 +107,14 @@ class IncomeOverview extends Component {
     render() {
         return (
             <ScrollView>
-                <Text>Hello income</Text>
-                { this.renderMonthData() }
+                <Card>
+                    <CardSection style={{ flexDirection: 'column' }}>
+                        <View style={{ backgroundColor: 'red', flexDirection: 'row', flex1: 1, alignItems: 'center' }}>
+                            <ButtonRound style={{ alignSelf: 'center' }} onPress={this.onButtonPressAddIncome.bind(this)}>+</ButtonRound>
+                        </View>
+                        { this.renderIncomeData() }
+                    </CardSection>
+                </Card>
             </ScrollView>
         );
     }
