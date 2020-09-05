@@ -83,7 +83,7 @@ class IncomeOverview extends Component {
         //const { category, categoryId } = this.props.data;
         //const categories = this.props.categories;
         //console.log(categories);
-        Actions.expensesAdd({ categoryId: 1, category: 'salary', categories });
+        Actions.incomeAdd({ categoryId: 1, category: 'salary', categories });
         //Actions.expensesAdd({ });
     }
 
@@ -109,7 +109,7 @@ class IncomeOverview extends Component {
             <ScrollView>
                 <Card>
                     <CardSection style={{ flexDirection: 'column' }}>
-                        <View style={{ backgroundColor: 'red', flexDirection: 'row', flex1: 1, alignItems: 'center' }}>
+                        <View style={{ backgroundColor1: 'red', flexDirection: 'row', flex: 1, justifyContent: 'flex-end' }}>
                             <ButtonRound style={{ alignSelf: 'center' }} onPress={this.onButtonPressAddIncome.bind(this)}>+</ButtonRound>
                         </View>
                         { this.renderIncomeData() }

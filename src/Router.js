@@ -5,6 +5,7 @@ import Screen1 from './components/Screen1';
 import ExpensesMonth from './components/ExpensesMonth';
 import IncomeOverview from './components/IncomeOverview';
 import ExpensesAdd from './components/ExpensesAdd';
+import IncomeAdd from './components/IncomeAdd';
 import DrawerMenu from './components/DrawerMenu';
 import { synchroniseWithServer } from './actions';
 
@@ -46,6 +47,13 @@ const RouterComponent = () => {
                         title="Add Expense"
                         onRight={() => { }}
                         rightTitle="Save" 
+                    />
+                    <Scene 
+                        key="incomeAdd" 
+                        component={IncomeAdd} 
+                        title="Add Income"
+                        onRight={() => { }}
+                        rightTitle="Save1" 
                     />
 
                     <Scene key="screen1" component={Screen1} title="Screen1" />

@@ -64,13 +64,13 @@ class IncomeItemOverview extends Component {
                                 <Text style={this.props.settingsAdditional}>Biltong</Text>
                             </View> 
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={this.props.settingsAdditional}>{currency} {budget.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {budget.toFixed(2)}</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={this.props.settingsAdditional}>{currency} {budget.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {budget.toFixed(2)}</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={this.props.settingsAdditional}>{currency} {budget.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {budget.toFixed(2)}</Text>
                             </View>
                             {/* <ButtonRound style={{ alignSelf: 'center' }} onPress={this.onButtonPress.bind(this)}>+</ButtonRound> */}
                         </View>
