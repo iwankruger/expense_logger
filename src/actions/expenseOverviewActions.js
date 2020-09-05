@@ -75,7 +75,7 @@ export const synchronise = (date) => {
             const userDataMonthExpense = await getUserDataFromServer(login, loginToken, date, 'expense');
             const userDataExpense = userDataFormat(userDataMonthExpense.categories, userDataMonthExpense.transactions);
             const userDataMonthIncome = await getUserDataFromServer(login, loginToken, date, 'income');
-            const userDataIncome = userDataFormat(userDataMonthIncome.categories, userDataMonthIncome.transactions);
+            const userDataIncome = userDataFormatIncome(userDataMonthIncome.categories, userDataMonthIncome.transactions);
 
             console.log('INCOME ', userDataMonthIncome);
             console.log('INCOME2 ', userDataIncome);
@@ -241,6 +241,42 @@ const userDataFormat = (categories, transactions, date) => {
         },
         categories
     };
+
+    return userData;
+
+};
+
+const userDataFormatIncome = (categories, transactions, date) => {
+
+    const data = [];
+    console.log('CAT income ', categories);
+    console.log('CAT income', transactions);
+    data.push({ category: 'Total', incomeGrossAmount: 0, incomeTaxAmount: 0, incomeAfterTaxAmount: 0, date: dateMonth });
+    
+    for (let i = 0; i < transactions.length; i++) {
+        const incomeGrossAmount = transactions[i].incomeGrossAmount ? transactions[i].incomeGrossAmount : 0;
+        const taxAmount = transactions[i].taxAmount ? transactions[i].taxAmount : 0;
+        const uifAmount = transactions[i].uifAmount ? transactions[i].uifAmount : 0;
+        const otherTaxAmount = transactions[i].otherTaxAmount ? transactions[i].otherTaxAmount : 0;
+        const incomeTaxAmount = taxAmount + uifAmount + otherTaxAmount;
+        const incomeAfterTaxAmount = incomeGrossAmount - incomeTaxAmount;
+        data.push({ ...transactions[i], incomeTaxAmount, incomeAfterTaxAmount });
+        data[0].incomeGrossAmount += incomeGrossAmount;
+        data[0].incomeTaxAmount += incomeTaxAmount;
+        data[0].incomeAfterTaxAmount += incomeAfterTaxAmount;
+    }
+
+    const dateMonth = Moment().format('YYYY-MM-DD');
+
+    const userData = {
+        data,
+        settings: {
+            currency: 'R'
+        },
+        categories
+    };
+
+    console.log('OVERVIEW PUSH INCOME ', data);
 
     return userData;
 

@@ -32,25 +32,26 @@ class IncomeItemOverview extends Component {
     }
 
     render() {
-        const { categoryId, category, description, budget, remaining, total } = this.props.data;
+        const { categoryId, category, description, incomeGrossAmount, incomeTaxAmount, incomeAfterTaxAmount } = this.props.data;
         const { currency } = this.props.settings;
+        console.log('INCOME DRRRRRRAAAAAAAWWWWWWW ', this.props.data);
         
         // calculate graph values
-        let spendPercentage = (total / budget) * 100;
+        //let spendPercentage = (total / budget) * 100;
         
-        if (spendPercentage > 100) spendPercentage = 100;
+        //if (spendPercentage > 100) spendPercentage = 100;
         
-        const chartData = [{
-            spent: spendPercentage,
-            balance: 100 - spendPercentage,
-        }];
+        // const chartData = [{
+        //     spent: spendPercentage,
+        //     balance: 100 - spendPercentage,
+        // }];
 
         // set graph colors
-        const colors = ['#06d6a0', '#ddd'];
-        const keys = ['spent', 'balance'];
+        // const colors = ['#06d6a0', '#ddd'];
+        // const keys = ['spent', 'balance'];
 
-        if (spendPercentage >= 80) colors[0] = '#ef476f';
-        else if (spendPercentage >= 60) colors[0] = '#ffd166';
+        // if (spendPercentage >= 80) colors[0] = '#ef476f';
+        // else if (spendPercentage >= 60) colors[0] = '#ffd166';
 
         return (
             <View style={{ padding: 5, borderBottomWidth: 1, borderColor: '#ddd' }}>
@@ -61,16 +62,16 @@ class IncomeItemOverview extends Component {
                                 <Text style={this.props.settingsAdditional} >{category}</Text>
                             </View>
                             <View style={{ backgroundColor1: 'orange', flexDirection: 'column', flex: 1 }}>
-                                <Text style={this.props.settingsAdditional}>{description}</Text>
+                            <Text style={this.props.settingsAdditional}>{description}</Text>
                             </View> 
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {budget.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeGrossAmount.toFixed(2)}</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {budget.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeTaxAmount.toFixed(2)}</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {budget.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeAfterTaxAmount.toFixed(2)}</Text>
                             </View>
                             {/* <ButtonRound style={{ alignSelf: 'center' }} onPress={this.onButtonPress.bind(this)}>+</ButtonRound> */}
                         </View>
