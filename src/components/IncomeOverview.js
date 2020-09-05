@@ -11,8 +11,7 @@ import { Actions } from 'react-native-router-flux';
 class IncomeOverview extends Component {
 
     componentWillMount() {
-        console.log('DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGG');
-
+     
         const status = this.props.synchroniseStatusFlag;
         console.log('STATUS ',this.props.synchroniseStatusFlag);
         this.props.synchroniseStatus();
@@ -50,7 +49,7 @@ class IncomeOverview extends Component {
         }
 
         if (prevProps.date !== this.props.date) {
-            const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Expenses`;
+            const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Income`;
             this.props.navigation.setParams({ title });
         }
 
@@ -98,8 +97,30 @@ class IncomeOverview extends Component {
 
         if (!incomeOverview) return;
 
-        console.log('DEBUG', settings);
-        console.log('GGG ');
+        items.push(
+            <View style={{ padding: 5, borderBottomWidth: 1, borderColor: '#ddd' }}>
+                    <View style={{ flexDirection: 'column', flex: 1 }}>
+                        <View style={{ flexDirection: 'row'}} >
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={{ fontWeight: 'bold' }} >Category</Text>
+                            </View>
+                            <View style={{ backgroundColor1: 'orange', flexDirection: 'column', flex: 1 }}>
+                            <Text style={{ fontWeight: 'bold' }}>Description</Text>
+                            </View> 
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>Gross</Text>
+                            </View>
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>Tax</Text>
+                            </View>
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>After Tax</Text>
+                            </View>
+                        </View>
+                    </View>
+            </View>
+        );
+
         for (let i = 0; i < incomeOverview.length; i++) {
             const settingsAdditional = i === 0 ? { fontWeight: 'bold' } : { };
             items.push(<IncomeItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={incomeOverview[i]} settings={settings} categories={categoriesIncome} settingsAdditional={settingsAdditional} />);
