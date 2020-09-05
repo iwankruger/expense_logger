@@ -32,7 +32,7 @@ class IncomeItemOverview extends Component {
     }
 
     render() {
-        const { categoryId, category, budget, remaining, total } = this.props.data;
+        const { categoryId, category, description, budget, remaining, total } = this.props.data;
         const { currency } = this.props.settings;
         
         // calculate graph values
@@ -61,7 +61,7 @@ class IncomeItemOverview extends Component {
                                 <Text style={this.props.settingsAdditional} >{category}</Text>
                             </View>
                             <View style={{ backgroundColor1: 'orange', flexDirection: 'column', flex: 1 }}>
-                                <Text style={this.props.settingsAdditional}>Biltong</Text>
+                                <Text style={this.props.settingsAdditional}>{description}</Text>
                             </View> 
                             <View style={{ flexDirection: 'column', flex: 1 }}>
                                 <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {budget.toFixed(2)}</Text>

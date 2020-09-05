@@ -91,14 +91,18 @@ class IncomeOverview extends Component {
     renderIncomeData() {
         const items = [];
 
+
         if (!this.props.userData) return;
 
-        const { data, settings, categories } = this.props.userData;
+        const { incomeOverview, settings, categoriesIncome } = this.props.userData;
+
+        if (!incomeOverview) return;
+
         console.log('DEBUG', settings);
         console.log('GGG ');
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < incomeOverview.length; i++) {
             const settingsAdditional = i === 0 ? { fontWeight: 'bold' } : { };
-            items.push(<IncomeItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={data[i]} settings={settings} categories={categories} settingsAdditional={settingsAdditional} />);
+            items.push(<IncomeItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={incomeOverview[i]} settings={settings} categories={categoriesIncome} settingsAdditional={settingsAdditional} />);
         }
         return (items);
 

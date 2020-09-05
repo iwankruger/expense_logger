@@ -4,6 +4,7 @@ export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_failed';
 export const LOGIN_USER = 'login_user';
 export const USER_DATA = 'user_data';
+export const USER_DATA_INCOME = 'user_data_income';
 export const CATEGORY_UPDATE = 'category_update';
 export const EXPENSE_ADD_DESCRIPTION_UPDATE = 'expense_add_description_updated';
 export const EXPENSE_ADD_AMOUNT_UPDATE = 'expense_add_amount_updated';

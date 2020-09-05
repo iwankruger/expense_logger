@@ -77,16 +77,29 @@ class ExpensesMonth extends Component {
     }
 
     
+    
+
     renderMonthData() {
         const items = [];
 
+        // categoriesExpense: userDataExpense.categories,
+        // categoriesIncome: userDataIncome.categories,
+        // settingsExpense: userDataExpense.settings,
+        // settingsIncome: userDataIncome.settings,
+        // dataExpense: userDataExpense.data,
+        // dataIncome: userDataIncome.data
+
         if (!this.props.userData) return;
 
-        const { data, settings, categories } = this.props.userData;
+        console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR ',this.props.userData);
+        const { expenseOverview, settings, categoriesExpense } = this.props.userData;
+
+        if (!expenseOverview) return;
+
         console.log('DEBUG', settings);
         console.log('GGG ');
-        for (let i = 0; i < data.length; i++) {
-            items.push(<ExpenseItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={data[i]} settings={settings} categories={categories} />);
+        for (let i = 0; i < expenseOverview.length; i++) {
+            items.push(<ExpenseItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={expenseOverview[i]} settings={settings} categories={categoriesExpense} />);
         }
         return (items);
 

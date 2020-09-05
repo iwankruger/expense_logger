@@ -136,8 +136,22 @@ export const checkIfUserIsLoggedIn = () => {
                 const dateCurrent = Moment().format('YYYY-MM-01');
 
                 let userData = { categories: [], settings: null, data: [] };
-                if (userDataLocal && userDataLocal.settings && userDataLocal.categories && userDataLocal[dateCurrent]) {
-                    userData = { categories: userDataLocal.categories, settings: userDataLocal.settings, data: userDataLocal[dateCurrent] };
+                if (userDataLocal && userDataLocal.categoriesExpense && userDataLocal.categoriesIncome
+                    && userDataLocal.settings && userDataLocal[dateCurrent]
+                    && userDataLocal[dateCurrent].expenseOverview
+                    && userDataLocal[dateCurrent].incomeOverview
+                    && userDataLocal[dateCurrent].expenses
+                    && userDataLocal[dateCurrent].incomes
+                    ) {
+                    userData = {
+                        categoriesExpense: userDataLocal.categoriesExpense,
+                        categoriesIncome: userDataLocal.categoriesIncome,
+                        settings: userDataLocal.settings,
+                        expenseOverview: userDataLocal[dateCurrent].expenseOverview,
+                        incomeOverview: userDataLocal[dateCurrent].incomeOverview,
+                        expenses: userDataLocal[dateCurrent].expenses,
+                        incomes: userDataLocal[dateCurrent].incomes
+                    };
                 }
 
                 dispatch({ type: USER_DATA, payload: userData });

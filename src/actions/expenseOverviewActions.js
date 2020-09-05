@@ -72,8 +72,13 @@ export const synchronise = (date) => {
                 dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
             }
 
-            const userDataMonth = await getUserDataFromServer(login, loginToken, date);
-            const userData = userDataFormat(userDataMonth.categories, userDataMonth.transactions);
+            const userDataMonthExpense = await getUserDataFromServer(login, loginToken, date, 'expense');
+            const userDataExpense = userDataFormat(userDataMonthExpense.categories, userDataMonthExpense.transactions);
+            const userDataMonthIncome = await getUserDataFromServer(login, loginToken, date, 'income');
+            const userDataIncome = userDataFormat(userDataMonthIncome.categories, userDataMonthIncome.transactions);
+
+            console.log('INCOME ', userDataMonthIncome);
+            console.log('INCOME2 ', userDataIncome);
 
             // get user data in storage
             let userDataLocal = await AsyncStorage.getItem('userDataLocal');
@@ -85,14 +90,32 @@ export const synchronise = (date) => {
                 userDataLocal = {};
             }
 
-            userDataLocal.categories = userData.categories;
-            userDataLocal.settings = userData.settings;
-            userDataLocal[date] = userData.data;
+            userDataLocal.categoriesExpense = userDataExpense.categories;
+            userDataLocal.categoriesIncome = userDataIncome.categories;
+            userDataLocal.settings = userDataExpense.settings;
+            userDataLocal[date] = { 
+                expenseOverview: userDataExpense.data, 
+                expenses: userDataMonthExpense.transactions,
+                incomeOverview: userDataIncome.data,
+                incomes: userDataMonthIncome.transactions
+            };
 
             console.log('SAVE DATA ', userDataLocal);
 
             // store data to local device
             await AsyncStorage.setItem('userDataLocal', JSON.stringify(userDataLocal));
+
+            const userData = {
+                categoriesExpense: userDataExpense.categories,
+                categoriesIncome: userDataIncome.categories,
+                settings: userDataExpense.settings,
+                expenseOverview: userDataExpense.data,
+                incomeOverview: userDataIncome.data,
+                expenses: userDataMonthExpense.transactions,
+                incomes: userDataMonthIncome.transactions
+            };
+
+            console.log('DISPATCH DATA ',userData);
 
             dispatch({ type: USER_DATA, payload: userData });
             
@@ -119,7 +142,7 @@ const addTransactions = (loginToken, transaction) => {
 };
 
 
-const getUserDataFromServer = async (login, loginToken, date) => {
+const getUserDataFromServer = async (login, loginToken, date, type) => {
 
     try {
         // set begin and end date of current month
@@ -130,10 +153,10 @@ const getUserDataFromServer = async (login, loginToken, date) => {
         dateBegin = Moment(dateBegin).format('YYYY-MM-DD');
         dateEnd = Moment(dateEnd).format('YYYY-MM-DD');
 
-        const categories = await getCategories(loginToken, login);
+        const categories = await getCategories(loginToken, login, type);
         console.log('categories ', categories);
 
-        const transactions = await getTransactions(loginToken, login, dateBegin, dateEnd);
+        const transactions = await getTransactions(loginToken, login, dateBegin, dateEnd, type);
         console.log('transactions ', transactions);
 
         return { categories, transactions };
@@ -142,8 +165,8 @@ const getUserDataFromServer = async (login, loginToken, date) => {
     }
 };
 
-const getCategories = (loginToken, login) => {
-    return axios.get(`${config.server.API}/categories?userId=${login}&type=expense`,{
+const getCategories = (loginToken, login, type) => {
+    return axios.get(`${config.server.API}/categories?userId=${login}&type=${type}`,{
         headers: {
           Authorization: loginToken
         }
@@ -155,8 +178,8 @@ const getCategories = (loginToken, login) => {
     });       
 };
 
-const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
-    return axios.get(`${config.server.API}/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd}&type=expense`,{
+const getTransactions = (loginToken, login, dateBegin, dateEnd, type) => {
+    return axios.get(`${config.server.API}/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd}&type=${type}`,{
         headers: {
           Authorization: loginToken
         }
@@ -203,6 +226,8 @@ const userDataFormat = (categories, transactions, date) => {
         totalBudget += categories[i].budget;
         data.push({ ...categories[i], remaining, total, date: dateMonth });
     }
+
+    console.log('OVERVIEW PUSH ', data);
 
     totalRemaining += totalBudget - totalAmount;
     data[0].budget = totalBudget;

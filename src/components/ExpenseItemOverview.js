@@ -30,6 +30,8 @@ class MenuItem extends Component {
     render() {
         const { categoryId, category, budget, remaining, total } = this.props.data;
         const { currency } = this.props.settings;
+
+        console.log('ITEM ', this.props.data);
         
         // calculate graph values
         let spendPercentage = (total / budget) * 100;
