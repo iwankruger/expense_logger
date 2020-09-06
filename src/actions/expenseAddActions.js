@@ -57,7 +57,8 @@ export const expenseAdd = ({date, category, categoryId, description, value}) => 
                 category,
                 categoryId,
                 description,
-                value
+                value,
+                type: 'expense',
             };
 
             console.log('transactionData ', transactionData);

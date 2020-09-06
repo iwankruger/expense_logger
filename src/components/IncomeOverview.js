@@ -77,13 +77,13 @@ class IncomeOverview extends Component {
     }
 
     onButtonPressAddIncome(text) {
-        const { data, settings, categories } = this.props.userData;
-        //this.props.expenseAdd('add');
-        //const { category, categoryId } = this.props.data;
-        //const categories = this.props.categories;
-        //console.log(categories);
-        Actions.incomeAdd({ categoryId: 1, category: 'salary', categories });
-        //Actions.expensesAdd({ });
+        const { data, settings, categoriesIncome } = this.props.userData;
+ 
+        const category = (categoriesIncome && Array.isArray(categoriesIncome) && categoriesIncome.length > 0
+            && categoriesIncome[0].category) ? categoriesIncome[0].category : null;
+
+        Actions.incomeAdd({ category, categories: categoriesIncome });
+
     }
 
     

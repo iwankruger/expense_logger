@@ -11,7 +11,8 @@ import { categoryUpdate, descriptionUpdate, amountUpdate,
     incomeTaxUpdate, 
     incomeUifUpdate, 
     incomeOtherTaxUpdate, 
-    incomeAfterTaxUpdate 
+    incomeAfterTaxUpdate,
+    categoryUpdateIncome 
 } from '../actions';
 import { connect } from 'react-redux';
 
@@ -22,7 +23,7 @@ class IncomeAdd extends Component {
 
     componentWillMount() {
         console.log('DEBUG123', this.props);
-        this.props.categoryUpdate(this.props.category);
+        this.props.categoryUpdateIncome(this.props.category);
 
         // link save button in navigation to function
         this.props.navigation.setParams({
@@ -33,7 +34,7 @@ class IncomeAdd extends Component {
     save = () => {
         console.log('Add save');
         
-        const categorySelected = this.props.categorySelected;    
+        const categorySelectedIncome = this.props.categorySelectedIncome;    
         const categories = this.props.categories;
         const description = this.props.description;
         const grossAmount = this.props.grossAmount;
@@ -46,7 +47,7 @@ class IncomeAdd extends Component {
         // get categoryId from selected category
         let categoryId = null;
         for (let i = 0; i < categories.length; i++) {
-            if (categories[i].category === categorySelected) {
+            if (categories[i].category === categorySelectedIncome) {
                 categoryId = categories[i].categoryId;
                 break;          
             }
@@ -55,7 +56,7 @@ class IncomeAdd extends Component {
 
         this.props.incomeAdd({ 
             date, 
-            category: categorySelected, 
+            category: categorySelectedIncome, 
             categoryId, 
             description, 
             grossAmount,
@@ -77,7 +78,7 @@ class IncomeAdd extends Component {
 
     handleConfirm = (date) => {
         date = Moment(date).format('YYYY-MM-DD');
-        this.setState({ date: date });
+        this.setState({ date });
         this.hideDatePicker();
     }
 
@@ -97,15 +98,14 @@ class IncomeAdd extends Component {
     render() {
         return (
             <Card>
-                <Text>Income add</Text>
                 <CardSection style={styles.containerStyle}>
                     <View style={styles.containerStyle2}>
                         <Picker 
                             style={{ flex: 1 }}
-                            selectedValue={this.props.categorySelected}
+                            selectedValue={this.props.categorySelectedIncome}
                             onValueChange={value => { 
                                 console.log('S ',value);
-                                this.props.categoryUpdate(value); 
+                                this.props.categoryUpdateIncome(value); 
                             }}
                         >
                             {this.renderPickerData()}
@@ -221,9 +221,6 @@ class IncomeAdd extends Component {
                     </View>
                         
                 </CardSection>
-                <CardSection style={styles.containerStyle}>
-
-                </CardSection>
 
                 
             </Card>
@@ -277,7 +274,7 @@ const styles = {
 const mapStateToProps = state => {
   
     return {
-        categorySelected: state.expenseAdd.categorySelected,
+        categorySelectedIncome: state.incomeAdd.categorySelectedIncome,
         description: state.expenseAdd.description,
         //amount: state.expenseAdd.amount,
         grossAmount: state.incomeAdd.grossAmount,
@@ -297,5 +294,6 @@ export default connect(mapStateToProps, {
     incomeTaxUpdate, 
     incomeUifUpdate, 
     incomeOtherTaxUpdate, 
-    incomeAfterTaxUpdate  
+    incomeAfterTaxUpdate,
+    categoryUpdateIncome  
 })(IncomeAdd);

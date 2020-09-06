@@ -17,3 +17,4 @@ export const INCOME_TAX_UPDATED = 'income_tax_updated';
 export const INCOME_UIF_UPDATED = 'income_uif_updated';
 export const INCOME_OTHER_TAX_UPDATED = 'income_other_tax_updated';
 export const INCOME_AFTER_TAX_UPDATED = 'income_AFTER_tax_updated';
+export const CATEGORY_UPDATE_INCOME = 'category_updated_income';

@@ -16,16 +16,16 @@ import { Actions } from 'react-native-router-flux';
 class IncomeItemOverview extends Component {
 
     componentWillMount() {
-        console.log('DEBUG', this.props);
+       
     }
 
-    onButtonPress(text) {
-        //this.props.expenseAdd('add');
-        const { category, categoryId } = this.props.data;
-        const categories = this.props.categories;
-        console.log(categories);
-        Actions.expensesAdd({ categoryId, category, categories });
-    }
+    // onButtonPress(text) {
+    //     //this.props.expenseAdd('add');
+    //     const { category, categoryId } = this.props.data;
+    //     const categories = this.props.categories;
+    //     console.log(categories);
+    //     Actions.expensesAdd({ categoryId, category, categories });
+    // }
 
     addBoldStyling() {
 

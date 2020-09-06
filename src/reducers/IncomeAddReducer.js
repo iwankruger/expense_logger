@@ -6,19 +6,18 @@ import {
     INCOME_TAX_UPDATED,
     INCOME_UIF_UPDATED,
     INCOME_OTHER_TAX_UPDATED,
-    INCOME_AFTER_TAX_UPDATED
+    INCOME_AFTER_TAX_UPDATED,
+    CATEGORY_UPDATE_INCOME
 } from '../actions/types';
 const INITIAL_STATE = { 
-    categorySelected: null
+    categorySelectedIncome: null
 };
 
 export default (state = INITIAL_STATE, action) => {
     console.log('IncomeAddReducer ', action);
     switch (action.type) {
-        // case CATEGORY_UPDATE:
-        //     console.log('reducer email changed');
-        //     // must return a new object
-        //     return { ...state, categorySelected: action.payload };
+        case CATEGORY_UPDATE_INCOME:
+            return { ...state, categorySelectedIncome: action.payload };
         // case EXPENSE_ADD_DESCRIPTION_UPDATE:
         //     return { ...state, description: action.payload };
         case INCOME_GROSS_UPDATED:

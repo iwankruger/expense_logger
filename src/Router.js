@@ -53,7 +53,7 @@ const RouterComponent = () => {
                         component={IncomeAdd} 
                         title="Add Income"
                         onRight={() => { }}
-                        rightTitle="Save1" 
+                        rightTitle="Save" 
                     />
 
                     <Scene key="screen1" component={Screen1} title="Screen1" />

@@ -9,9 +9,18 @@ import {
     INCOME_TAX_UPDATED,
     INCOME_UIF_UPDATED,
     INCOME_OTHER_TAX_UPDATED,
-    INCOME_AFTER_TAX_UPDATED
+    INCOME_AFTER_TAX_UPDATED,
+    CATEGORY_UPDATE_INCOME,
+    EXPENSES_SYNCHRONISED
 } from './types';
 import Moment from 'moment';
+
+export const categoryUpdateIncome = (category) => {
+    return {
+        type: CATEGORY_UPDATE_INCOME,
+        payload: category
+    };
+};
 
 export const incomeGrossUpdate = (grossAmount) => {
     console.log('INCOME ACTION ', grossAmount);
@@ -88,7 +97,8 @@ export const incomeAdd = ({ date, category, categoryId, description,
                 category,
                 categoryId,
                 description,
-                incomeGrossAmount: grossAmount
+                incomeGrossAmount: grossAmount,
+                type: 'income'
             };
 
             if (taxAmount) transactionData['taxAmount'] = taxAmount; 
@@ -99,25 +109,25 @@ export const incomeAdd = ({ date, category, categoryId, description,
 
             console.log('transactionData ', transactionData);
 
-            // // get stored transactions to upload/sync
-            // let transactionUpload = await AsyncStorage.getItem('transactionUpload');
+            // get stored transactions to upload/sync
+            let transactionUpload = await AsyncStorage.getItem('transactionUpload');
             
-            // // decode transactions
-            // transactionUpload = transactionUpload ? JSON.parse(transactionUpload) : [];
+            // decode transactions
+            transactionUpload = transactionUpload ? JSON.parse(transactionUpload) : [];
             
-            // // add transaction
-            // transactionUpload.push(transactionData);
-            // // encode transactions into a string
-            // transactionUpload = JSON.stringify(transactionUpload);
+            // add transaction
+            transactionUpload.push(transactionData);
+            // encode transactions into a string
+            transactionUpload = JSON.stringify(transactionUpload);
 
-            // console.log('transactions to upload ', transactionUpload);
+            console.log('transactions to upload ', transactionUpload);
 
-            // await AsyncStorage.setItem('transactionUpload', transactionUpload);     
+            await AsyncStorage.setItem('transactionUpload', transactionUpload);     
 
             // go to main screen
             Actions.income();
 
-            // dispatch({ type: EXPENSE_ADD_SAVE, payload: { date, category, categoryId, description, value } });
+            dispatch({ type: EXPENSES_SYNCHRONISED, payload: false });
             
         } catch (e) {
             console.log(e);
