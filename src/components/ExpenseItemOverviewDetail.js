@@ -11,20 +11,23 @@ import { Actions } from 'react-native-router-flux';
 class ExpenseItemOverviewDetail extends Component {
 
     componentWillMount() {
-     
-        const status = this.props.synchroniseStatusFlag;
-        console.log('STATUS ',this.props.synchroniseStatusFlag);
-        this.props.synchroniseStatus();
-        // link save button in navigation to function
-        this.props.navigation.setParams({
-            'onRight': this.synchronise
-        });
         
-        if (this.props.synchroniseStatusFlag) {
-            this.syncTextGreen();
-        } else {
-            this.syncTextRed();
-        }
+        const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Expenses`;
+        this.props.navigation.setParams({ title });
+
+        // const status = this.props.synchroniseStatusFlag;
+        // console.log('STATUS ',this.props.synchroniseStatusFlag);
+        // this.props.synchroniseStatus();
+        // // link save button in navigation to function
+        // this.props.navigation.setParams({
+        //     'onRight': this.synchronise
+        // });
+        
+        // if (this.props.synchroniseStatusFlag) {
+        //     this.syncTextGreen();
+        // } else {
+        //     this.syncTextRed();
+        // }
         // this.props.navigation.setParams({
         //     //'rightTitle': 'test',
         //     //rightButtonTextStyle: {color: '#06d6a0'},
@@ -34,8 +37,7 @@ class ExpenseItemOverviewDetail extends Component {
         //     'titleStyle': {color:'red'}
         // });
 
-        const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Income`;
-        this.props.navigation.setParams({ title });
+        
 
 
         

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { Card, CardSection, Button, Confirm } from './common';
 import ExpenseItemOverview from './ExpenseItemOverview';
+import NetIncomeOverview from './NetIncomeOverview';
 import { synchronise, synchroniseStatus } from '../actions/expenseOverviewActions';
 import Moment from 'moment';
 
@@ -77,7 +78,16 @@ class ExpensesMonth extends Component {
     }
 
     
-    
+    renderNetIncome() {
+        const { expenseOverview, incomeOverview, settings, incomes, expenses } = this.props.userData;
+        const expensesTotal = expenseOverview[0].total;
+        const incomeAfterTaxAmount = incomeOverview[0].incomeAfterTaxAmount;
+        const incomeNet = incomeAfterTaxAmount - expensesTotal;
+
+        return (
+            <NetIncomeOverview financialData={{ expensesTotal, incomeAfterTaxAmount, incomeNet, incomes, expenses, settings }} />
+        );
+    }
 
     renderMonthData() {
         const items = [];
@@ -108,6 +118,7 @@ class ExpensesMonth extends Component {
     render() {
         return (
             <ScrollView>
+                { this.renderNetIncome() }
                 { this.renderMonthData() }
             </ScrollView>
         );
