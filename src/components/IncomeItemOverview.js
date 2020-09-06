@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { Card, CardSection, Button, ButtonRound } from './common';
 import { StackedBarChart } from 'react-native-svg-charts';
 import { Actions } from 'react-native-router-flux';
-
+import Moment from 'moment';
 
 
 // ef476f rooi
@@ -32,31 +32,17 @@ class IncomeItemOverview extends Component {
     }
 
     render() {
-        const { categoryId, category, description, incomeGrossAmount, incomeTaxAmount, incomeAfterTaxAmount } = this.props.data;
+        const { categoryId, category, description, incomeGrossAmount, incomeTaxAmount, incomeAfterTaxAmount, date } = this.props.data;
         const { currency } = this.props.settings;
-        console.log('INCOME DRRRRRRAAAAAAAWWWWWWW ', this.props.data);
-        
-        // calculate graph values
-        //let spendPercentage = (total / budget) * 100;
-        
-        //if (spendPercentage > 100) spendPercentage = 100;
-        
-        // const chartData = [{
-        //     spent: spendPercentage,
-        //     balance: 100 - spendPercentage,
-        // }];
-
-        // set graph colors
-        // const colors = ['#06d6a0', '#ddd'];
-        // const keys = ['spent', 'balance'];
-
-        // if (spendPercentage >= 80) colors[0] = '#ef476f';
-        // else if (spendPercentage >= 60) colors[0] = '#ffd166';
-
+        const incomeDate = (date) ? Moment(date).format('YYYY-MM-DD hh:mm:ss') : null;
+       
         return (
             <View style={{ padding: 5, borderBottomWidth: 1, borderColor: '#ddd' }}>
                 
                     <View style={{ backgroundColor1: 'red', flexDirection: 'column', flex: 1 }}>
+                        { incomeDate &&
+                        <Text style={{ fontSize: 10 }}>{incomeDate}</Text>
+                        }
                         <View style={{ backgroundColor1: 'orange', flexDirection: 'row', flex1: 1 }} >
                             <View style={{ backgroundColor1: 'orange', flexDirection: 'column', flex: 1 }}>
                                 <Text style={this.props.settingsAdditional} >{category}</Text>
