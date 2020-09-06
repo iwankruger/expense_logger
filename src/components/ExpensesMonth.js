@@ -79,9 +79,17 @@ class ExpensesMonth extends Component {
 
     
     renderNetIncome() {
+        if (!this.props.userData) return;
+
         const { expenseOverview, incomeOverview, settings, incomes, expenses } = this.props.userData;
-        const expensesTotal = expenseOverview[0].total;
-        const incomeAfterTaxAmount = incomeOverview[0].incomeAfterTaxAmount;
+        const expensesTotal = (expenseOverview 
+            && Array.isArray(expenseOverview) 
+            && expenseOverview.length > 0 
+            && expenseOverview[0].total) ? expenseOverview[0].total : 0;
+        const incomeAfterTaxAmount = (expenseOverview 
+            && Array.isArray(expenseOverview) 
+            && expenseOverview.length > 0 
+            && expenseOverview[0].incomeAfterTaxAmount) ? expenseOverview[0].incomeAfterTaxAmount : 0;
         const incomeNet = incomeAfterTaxAmount - expensesTotal;
 
         return (
