@@ -184,7 +184,7 @@ class IncomeAdd extends Component {
                         />
                     </View>
                 </CardSection>
-                <CardSection style={styles.containerStyle}>
+                {/* <CardSection style={styles.containerStyle}>
                     <View style={styles.containerStyle2}>
                         <TextInput
                             placeholder={'After Tax Amount (R)'}
@@ -197,7 +197,7 @@ class IncomeAdd extends Component {
                             //keyboardType="visible-password"
                         />
                     </View>
-                </CardSection>
+                </CardSection> */}
                 <CardSection style={styles.containerStyle}>
                     <View style={styles.containerStyle2}>
                             <TextInput
