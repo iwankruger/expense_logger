@@ -19,16 +19,18 @@ const INITIAL_STATE = {
 
 
 const addTransaction = (userData, transaction) => {
-    
-    if (!userData || !userData.data || !Array.isArray(userData.data)) return userData;
+    console.log('ADDDDD ', userData);
+    console.log('ADDDDD ', transaction);
+    if (!userData || !userData.expenseOverview || !Array.isArray(userData.expenseOverview)) return userData;
     
     const transactionDateMonth = Moment(new Date(transaction.date)).format('YYYY-MM-DD');
     
-    for (let i = 0; i < userData.data.length; i++) {
-        if (userData.data[i].categoryId == transaction.categoryId && transactionDateMonth == userData.data[i].date) {
-            console.log('MATCH');
-            userData.data[i].total += parseFloat(transaction.value);
-            userData.data[i].remaining = userData.data[i].budget - userData.data[i].total;
+    for (let i = 0; i < userData.expenseOverview.length; i++) {
+        console.log(i+' ',userData.expenseOverview[i]);
+        if (userData.expenseOverview[i].categoryId == transaction.categoryId && transactionDateMonth == userData.expenseOverview[i].date) {
+            userData.expenseOverview[i].total += parseFloat(transaction.expenseAmount);
+            userData.expenseOverview[i].remaining = userData.expenseOverview[i].budget - userData.expenseOverview[i].total;
+            console.log(userData);
             break;
         }
     }

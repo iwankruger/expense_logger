@@ -57,7 +57,7 @@ export const expenseAdd = ({date, category, categoryId, description, value}) => 
                 category,
                 categoryId,
                 description,
-                value,
+                expenseAmount: value,
                 type: 'expense',
             };
 
@@ -81,7 +81,7 @@ export const expenseAdd = ({date, category, categoryId, description, value}) => 
             // go to main screen
             Actions.main();
 
-            dispatch({ type: EXPENSE_ADD_SAVE, payload: { date, category, categoryId, description, value } });
+            dispatch({ type: EXPENSE_ADD_SAVE, payload: { date, category, categoryId, description, expenseAmount: value } });
             
         } catch (e) {
             console.log(e);

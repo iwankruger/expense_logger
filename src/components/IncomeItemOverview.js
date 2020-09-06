@@ -35,6 +35,7 @@ class IncomeItemOverview extends Component {
         const { categoryId, category, description, incomeGrossAmount, incomeTaxAmount, incomeAfterTaxAmount, date } = this.props.data;
         const { currency } = this.props.settings;
         const incomeDate = (date) ? Moment(date).format('YYYY-MM-DD hh:mm:ss') : null;
+        console.log('IIIIIIIINNNNNNNNNNNN ',this.props.data);
        
         return (
             <View style={{ padding: 5, borderBottomWidth: 1, borderColor: '#ddd' }}>
@@ -51,13 +52,13 @@ class IncomeItemOverview extends Component {
                             <Text style={this.props.settingsAdditional}>{description}</Text>
                             </View> 
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeGrossAmount.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeGrossAmount ? incomeGrossAmount.toFixed(2) : 0}</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeTaxAmount.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeTaxAmount ? incomeTaxAmount.toFixed(2) : 0}</Text>
                             </View>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeAfterTaxAmount.toFixed(2)}</Text>
+                                <Text style={{ ...this.props.settingsAdditional, alignSelf: 'flex-end' }}>{currency} {incomeAfterTaxAmount ? incomeAfterTaxAmount.toFixed(2) : 0}</Text>
                             </View>
                             {/* <ButtonRound style={{ alignSelf: 'center' }} onPress={this.onButtonPress.bind(this)}>+</ButtonRound> */}
                         </View>
