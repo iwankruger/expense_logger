@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, ScrollView } from 'react-native';
-import { Card, CardSection, Button, Confirm } from './common';
-import ExpenseItemOverview from './ExpenseItemOverview';
+import { Card, CardSection, Button, Confirm, ButtonRound } from './common';
+import ExpenseItemOverviewDetailItem from './ExpenseItemOverviewDetailItem';
 import { synchronise, synchroniseStatus } from '../actions/expenseOverviewActions';
 import Moment from 'moment';
+import { Actions } from 'react-native-router-flux';
 
 
-class ExpensesMonth extends Component {
+class ExpenseItemOverviewDetail extends Component {
 
     componentWillMount() {
-        console.log('DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGG');
-
+     
         const status = this.props.synchroniseStatusFlag;
         console.log('STATUS ',this.props.synchroniseStatusFlag);
         this.props.synchroniseStatus();
@@ -34,6 +34,9 @@ class ExpensesMonth extends Component {
         //     'titleStyle': {color:'red'}
         // });
 
+        const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Income`;
+        this.props.navigation.setParams({ title });
+
 
         
     }
@@ -49,7 +52,7 @@ class ExpensesMonth extends Component {
         }
 
         if (prevProps.date !== this.props.date) {
-            const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Expenses`;
+            const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Income`;
             this.props.navigation.setParams({ title });
         }
 
@@ -76,30 +79,52 @@ class ExpensesMonth extends Component {
        this.props.synchronise(this.props.date);
     }
 
-    
-    
+    onButtonPressAddIncome(text) {
+        const { data, settings, categoriesIncome } = this.props.userData;
+ 
+        const category = (categoriesIncome && Array.isArray(categoriesIncome) && categoriesIncome.length > 0
+            && categoriesIncome[0].category) ? categoriesIncome[0].category : null;
 
-    renderMonthData() {
+        Actions.incomeAdd({ category, categories: categoriesIncome });
+
+    }
+
+    
+    renderIncomeData() {
         const items = [];
 
-        // categoriesExpense: userDataExpense.categories,
-        // categoriesIncome: userDataIncome.categories,
-        // settingsExpense: userDataExpense.settings,
-        // settingsIncome: userDataIncome.settings,
-        // dataExpense: userDataExpense.data,
-        // dataIncome: userDataIncome.data
+        console.log('PROPS ',this.props);
+        const { category, categoryId, expenses } = this.props;
 
         if (!this.props.userData) return;
 
-        console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR ',this.props.userData);
-        const { expenseOverview, settings, categoriesExpense, expenses } = this.props.userData;
+        const { incomeOverview, settings, categoriesIncome } = this.props.userData;
 
-        if (!expenseOverview) return;
+        //if (!incomeOverview) return;
 
-        console.log('DEBUG', settings);
-        console.log('GGG ');
-        for (let i = 0; i < expenseOverview.length; i++) {
-            items.push(<ExpenseItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={expenseOverview[i]} settings={settings} categories={categoriesExpense} expenses={expenses} />);
+        items.push(
+            <View style={{ padding: 5, borderBottomWidth: 1, borderColor: '#ddd' }}>
+                    <View style={{ flexDirection: 'column', flex: 1 }}>
+                        <View style={{ flexDirection: 'row'}} >
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={{ fontWeight: 'bold' }} >Category</Text>
+                            </View>
+                            <View style={{ backgroundColor1: 'orange', flexDirection: 'column', flex: 1 }}>
+                            <Text style={{ fontWeight: 'bold' }}>Description</Text>
+                            </View> 
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={{ fontWeight: 'bold', alignSelf: 'center' }}>Amount</Text>
+                            </View>
+                        </View>
+                    </View>
+            </View>
+        );
+
+        for (let i = 0; i < expenses.length; i++) {
+            //const settingsAdditional = i === 0 ? { fontWeight: 'bold' } : { };
+            if (categoryId == expenses[i].categoryId || !categoryId) {
+                items.push(<ExpenseItemOverviewDetailItem key={`${i}`} label={`${i}`} value={`${i}`} data={expenses[i]} settings={settings} categories={{}} settingsAdditional={{}} />);
+            }
         }
         return (items);
 
@@ -108,7 +133,11 @@ class ExpensesMonth extends Component {
     render() {
         return (
             <ScrollView>
-                { this.renderMonthData() }
+                <Card>
+                    <CardSection style={{ flexDirection: 'column' }}>
+                        { this.renderIncomeData() }
+                    </CardSection>
+                </Card>
             </ScrollView>
         );
     }
@@ -131,5 +160,5 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, { 
     synchronise,
     synchroniseStatus
-})(ExpensesMonth);
+})(ExpenseItemOverviewDetail);
 

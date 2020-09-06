@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import { Card, CardSection, Button, ButtonRound } from './common';
 import { StackedBarChart } from 'react-native-svg-charts';
 import { Actions } from 'react-native-router-flux';
@@ -27,6 +27,13 @@ class MenuItem extends Component {
         Actions.expensesAdd({ categoryId, category, categories });
     }
 
+    showExpenseDetail() {
+        const { category, categoryId } = this.props.data;
+        const expenses = this.props.expenses;
+        console.log('CCCCCCCLLLLLLIIIIIIIICCCCCCCCCCKKKKKKKK ');
+        Actions.expensesOverviewDetail({ categoryId, category, expenses });
+    }
+
     render() {
         const { categoryId, category, budget, remaining, total } = this.props.data;
         const { currency } = this.props.settings;
@@ -51,6 +58,11 @@ class MenuItem extends Component {
         else if (spendPercentage >= 60) colors[0] = '#ffd166';
 
         return (
+            <TouchableWithoutFeedback
+                key={1}
+                onPress={this.showExpenseDetail.bind(this)}
+            >
+                <View>
             <Card>
                 <CardSection style={{ backgroundColor1: 'green' }}>
                     <View style={{ backgroundColor1: 'red', flexDirection: 'column', flex: 1 }}>
@@ -88,6 +100,8 @@ class MenuItem extends Component {
                     
             </CardSection>
           </Card>
+          </View>
+          </TouchableWithoutFeedback>
         );
     }
 }
