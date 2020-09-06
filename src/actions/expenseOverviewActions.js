@@ -297,14 +297,29 @@ export const setMonth = (date) => {
             
             if (userDataLocal) {
                 userDataLocal = JSON.parse(userDataLocal);
-            
+
                 let userData = { categories: [], settings: null, data: [] };
-                if (userDataLocal && userDataLocal.settings && userDataLocal.categories && userDataLocal[date]) {
-                    userData = { categories: userDataLocal.categories, settings: userDataLocal.settings, data: userDataLocal[date] };
+                if (userDataLocal && userDataLocal.categoriesExpense && userDataLocal.categoriesIncome
+                    && userDataLocal.settings && userDataLocal[date]
+                    && userDataLocal[date].expenseOverview
+                    && userDataLocal[date].incomeOverview
+                    && userDataLocal[date].expenses
+                    && userDataLocal[date].incomes
+                    ) {
+                    userData = {
+                        categoriesExpense: userDataLocal.categoriesExpense,
+                        categoriesIncome: userDataLocal.categoriesIncome,
+                        settings: userDataLocal.settings,
+                        expenseOverview: userDataLocal[date].expenseOverview,
+                        incomeOverview: userDataLocal[date].incomeOverview,
+                        expenses: userDataLocal[date].expenses,
+                        incomes: userDataLocal[date].incomes
+                    };
                 }
-                
+
                 dispatch({ type: USER_DATA, payload: userData });
             }
+
 
         
             dispatch({ type: DATE_CHANGED, payload: date });
