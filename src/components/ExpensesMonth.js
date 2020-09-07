@@ -86,12 +86,12 @@ class ExpensesMonth extends Component {
             && Array.isArray(expenseOverview) 
             && expenseOverview.length > 0 
             && expenseOverview[0].total) ? expenseOverview[0].total : 0;
-        const incomeAfterTaxAmount = (expenseOverview 
-            && Array.isArray(expenseOverview) 
-            && expenseOverview.length > 0 
-            && expenseOverview[0].incomeAfterTaxAmount) ? expenseOverview[0].incomeAfterTaxAmount : 0;
+        const incomeAfterTaxAmount = (incomeOverview 
+            && Array.isArray(incomeOverview) 
+            && incomeOverview.length > 0 
+            && incomeOverview[0].incomeAfterTaxAmount) ? incomeOverview[0].incomeAfterTaxAmount : 0;
         const incomeNet = incomeAfterTaxAmount - expensesTotal;
-
+        
         return (
             <NetIncomeOverview financialData={{ expensesTotal, incomeAfterTaxAmount, incomeNet, incomes, expenses, settings }} />
         );

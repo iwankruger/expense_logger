@@ -34,8 +34,7 @@ class IncomeItemOverview extends Component {
     render() {
         const { categoryId, category, description, incomeGrossAmount, incomeTaxAmount, incomeAfterTaxAmount, date } = this.props.data;
         const { currency } = this.props.settings;
-        const incomeDate = (date) ? Moment(date).format('YYYY-MM-DD hh:mm:ss') : null;
-        console.log('IIIIIIIINNNNNNNNNNNN ',this.props.data);
+        const incomeDate = (date) ? Moment(date, 'YYYY-MM-DD hh:mm:ss.SSS [GMT]ZZ').format('YYYY-MM-DD hh:mm:ss') : null;
        
         return (
             <View style={{ padding: 5, borderBottomWidth: 1, borderColor: '#ddd' }}>

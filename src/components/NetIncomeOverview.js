@@ -36,15 +36,28 @@ class MenuItem extends Component {
     }
 
     render() {
+        console.log('FFFFFFFFFFFFFFFFF ',this.props.financialData);
+
+        if (!this.props.financialData) return (<View />);
+
         const { expensesTotal, incomeAfterTaxAmount, incomeNet, settings, expenses, incomes } = this.props.financialData;
+
+        if (!settings || !settings.currency) return (<View />);
+
         const { currency } = settings;
 
+        if (!expenses || !Array.isArray(expenses) || !expenses.length > 0) return (<View />);
+        if (!incomes || !Array.isArray(incomes) || !incomes.length > 0) return (<View />);
+
         //const dateRange = Moment(expenses[0].date).format();
-        const dateCurrent = Moment(expenses[0].date).format('YYYY-MM-01');
-        let date = new Date(expenses[0].date);
-        //let date = new Date('2021-02-01');
-        const monthLastDay = parseInt(Moment(new Date(date.getFullYear(), date.getMonth() + 1, 0)).format('DD'));
-        console.log('DATTTTTTTTTTTTTT ', monthLastDay);
+        const dateMonth = Moment(expenses[0].date).format('YYYY-MM-01');
+        const date = new Date(dateMonth);
+        let monthLastDay = parseInt(Moment(new Date(date.getFullYear(), date.getMonth() + 1, 0)).format('DD'));
+
+        //return (<Text>{`${monthLastDay}`}</Text>);
+        if (!Number.isInteger(monthLastDay)) {
+            monthLastDay = 0;
+        }
 
         // set graph colors
         const colors = ['#06d6a0', '#073b4c'];
@@ -60,7 +73,9 @@ class MenuItem extends Component {
             const expenseDayIndex = parseInt(Moment(expenses[i].date).format('DD')) - 1;
             const expenseAmount = expenses[i].expenseAmount;
             console.log(expenseDayIndex);
-            chartData[expenseDayIndex].expense += expenseAmount;
+            if (Number.isInteger(expenseDayIndex) && expenseDayIndex < monthLastDay) {
+                chartData[expenseDayIndex].expense += expenseAmount;
+            }
         }
 
         for (let i = 0; i < incomes.length; i++) {
@@ -73,7 +88,9 @@ class MenuItem extends Component {
             const incomeTaxAmount = taxAmount + uifAmount + otherTaxAmount;
             const incomeAfterTaxAmountDay = incomeGrossAmount - incomeTaxAmount;
             console.log(expenseDayIndex);
-            chartData[expenseDayIndex].income += incomeAfterTaxAmountDay;
+            if (Number.isInteger(expenseDayIndex) && expenseDayIndex < monthLastDay) {
+                chartData[expenseDayIndex].income += incomeAfterTaxAmountDay;
+            }
         }
 
 
@@ -126,15 +143,15 @@ class MenuItem extends Component {
                         <View style={{ backgroundColor1: 'orange', flexDirection: 'row', flex1: 1 }} >
                             <View style={{ backgroundColor1: 'white', flexDirection: 'column', flex: 1, alignItems: 'center' }}>
                                 <Text style={{ fontSize1: 10, fontWeight: 'bold' }}>Income After Tax</Text>
-                                <Text>{currency} {expensesTotal.toFixed(2)}</Text>
+                                <Text>{currency} {incomeAfterTaxAmount ? incomeAfterTaxAmount.toFixed(2) : 0}</Text>
                             </View>
                             <View style={{ backgroundColor1: 'white', flexDirection: 'column', flex: 1, alignItems: 'center' }}>
                                 <Text style={{ fontSize1: 10, fontWeight: 'bold' }}>Expenses</Text>
-                                <Text>{currency} {incomeAfterTaxAmount.toFixed(2)}</Text>
+                                <Text>{currency} {expensesTotal ? expensesTotal.toFixed(2) : 0}</Text>
                             </View>
                             <View style={{ backgroundColor1: 'white', flexDirection: 'column', flex: 1, alignItems: 'center' }}>
                                 <Text style={{ fontSize1: 10, fontWeight: 'bold' }}>Net Income</Text>
-                                <Text>{currency} {incomeNet.toFixed(2)}</Text>
+                                <Text>{currency} {incomeNet ? incomeNet.toFixed(2) : 0}</Text>
                             </View>
                         </View>
                     </View>

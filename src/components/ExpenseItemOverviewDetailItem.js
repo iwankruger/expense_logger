@@ -34,7 +34,7 @@ class ExpenseItemOverviewDetailItem extends Component {
     render() {
         const { categoryId, category, description, expenseAmount, date } = this.props.data;
         const { currency } = this.props.settings;
-        const incomeDate = (date) ? Moment(date).format('YYYY-MM-DD hh:mm:ss') : null;
+        const incomeDate = (date) ? Moment(date, 'YYYY-MM-DD hh:mm:ss.SSS [GMT]ZZ').format('YYYY-MM-DD hh:mm:ss') : null;
         
         return (
             <View style={{ padding: 5, borderBottomWidth: 1, borderColor: '#ddd' }}>
