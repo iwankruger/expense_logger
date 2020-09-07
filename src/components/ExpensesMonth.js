@@ -26,6 +26,10 @@ class ExpensesMonth extends Component {
         } else {
             this.syncTextRed();
         }
+
+        const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Expenses`;
+        this.props.navigation.setParams({ title });
+
         // this.props.navigation.setParams({
         //     //'rightTitle': 'test',
         //     //rightButtonTextStyle: {color: '#06d6a0'},
