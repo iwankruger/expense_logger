@@ -29,6 +29,9 @@ const RouterComponent = () => {
                         drawerWidth1={220}
                         tapToClose={true}
                         hideNavBar
+                        //leftButtonIconStyle={{ color: 'red' }}
+                        //navigationBarStyle={{ backgroundColor: 'red'}}
+                        //tintColor={'#073b4c'}
                     >
                         <Scene key="expenses" component={ExpensesMonth} title={title} initial 
                             onRight={() => { console.log('sync'); synchroniseWithServer(); }}
@@ -48,6 +51,7 @@ const RouterComponent = () => {
                         title="Add Expense"
                         onRight={() => { }}
                         rightTitle="Save" 
+                        rightButtonTextStyle={{ color: '#118ab2' }}
                     />
                     <Scene 
                         key="expensesOverviewDetail" 
@@ -62,6 +66,7 @@ const RouterComponent = () => {
                         title="Add Income"
                         onRight={() => { }}
                         rightTitle="Save" 
+                        rightButtonTextStyle={{ color: '#118ab2' }}
                     />
 
                     <Scene key="screen1" component={Screen1} title="Screen1" />

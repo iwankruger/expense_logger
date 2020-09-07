@@ -15,7 +15,7 @@ const ButtonRound = (props) => {
 const styles = {
     textStyle: {
         alignSelf: 'center',
-        color: '#007aff',
+        color: '#118ab2',
         fontSize: 16,
         fontWeight: '600',
         paddingTop: 10,
@@ -23,7 +23,7 @@ const styles = {
     },
     buttonStyle: {
         borderWidth: 1,
-        borderColor: '#007aff',
+        borderColor: '#118ab2',
         alignItems: 'center',
         justifyContent: 'center',
         width: 20,

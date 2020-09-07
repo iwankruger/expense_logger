@@ -89,7 +89,10 @@ class MenuItem extends Component {
             const incomeAfterTaxAmountDay = incomeGrossAmount - incomeTaxAmount;
             console.log(expenseDayIndex);
             if (Number.isInteger(expenseDayIndex) && expenseDayIndex < monthLastDay) {
-                chartData[expenseDayIndex].income += incomeAfterTaxAmountDay;
+                //chartData[expenseDayIndex].income += incomeAfterTaxAmountDay;
+                // a massive income value will cause small expenses not to be visible on graph
+                // scale down income value for graph to allow small expenses to be visible 
+                chartData[expenseDayIndex].income = 1000;
             }
         }
 
