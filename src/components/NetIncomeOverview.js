@@ -50,7 +50,7 @@ class MenuItem extends Component {
         if (!incomes || !Array.isArray(incomes) || !incomes.length > 0) return (<View />);
 
         //const dateRange = Moment(expenses[0].date).format();
-        const dateMonth = Moment(expenses[0].date).format('YYYY-MM-01');
+        const dateMonth = Moment(expenses[0].date, 'YYYY-MM-DD hh:mm:ss.SSS [GMT]ZZ').format('YYYY-MM-01');
         const date = new Date(dateMonth);
         let monthLastDay = parseInt(Moment(new Date(date.getFullYear(), date.getMonth() + 1, 0)).format('DD'));
 
@@ -70,7 +70,7 @@ class MenuItem extends Component {
 
         for (let i = 0; i < expenses.length; i++) {
             //const expenseDate = expenses[i].date;
-            const expenseDayIndex = parseInt(Moment(expenses[i].date).format('DD')) - 1;
+            const expenseDayIndex = parseInt(Moment(expenses[i].date, 'YYYY-MM-DD hh:mm:ss.SSS [GMT]ZZ').format('DD')) - 1;
             const expenseAmount = expenses[i].expenseAmount;
             console.log(expenseDayIndex);
             if (Number.isInteger(expenseDayIndex) && expenseDayIndex < monthLastDay) {
@@ -80,7 +80,7 @@ class MenuItem extends Component {
 
         for (let i = 0; i < incomes.length; i++) {
             //const expenseDate = expenses[i].date;
-            const expenseDayIndex = parseInt(Moment(incomes[i].date).format('DD')) - 1;
+            const expenseDayIndex = parseInt(Moment(incomes[i].date, 'YYYY-MM-DD hh:mm:ss.SSS [GMT]ZZ').format('DD')) - 1;
             const incomeGrossAmount = incomes[i].incomeGrossAmount ? incomes[i].incomeGrossAmount : 0;
             const taxAmount = incomes[i].taxAmount ? incomes[i].taxAmount : 0;
             const uifAmount = incomes[i].uifAmount ? incomes[i].uifAmount : 0;
