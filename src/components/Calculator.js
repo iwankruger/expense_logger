@@ -102,7 +102,7 @@ class Calculator extends Component {
         return (
             <View style={{
                 flex: 1,
-                backgroundColor: "#202020",
+                backgroundColor: '#fff', //"#202020",
                 justifyContent: "flex-end"
               }}
             //   width={300} height={400}
@@ -110,7 +110,7 @@ class Calculator extends Component {
                 <StatusBar barStyle="light-content" />
                 <SafeAreaView>
                     <Text style={{
-                            color: "#fff",
+                            //color: "#fff",
                             fontSize: 40,
                             textAlign: "right",
                             marginRight: 20,
@@ -197,7 +197,7 @@ class Calculator extends Component {
                         flexDirection: 'row',
                         //borderColor: '#ddd',
                         //position: 'relative',
-                        backgroundColor: '#202020'
+                        backgroundColor: '#fff' //'#202020'
                     }}>
                         {/* <Button onPress={()=>{}}>cancel</Button>
                         <Button onPress={()=>{}}>save</Button> */}
