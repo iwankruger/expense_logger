@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker, TextInput, Button as ButtonRn  } from 'react-native';
+import { View, Text, Picker, TextInput, Button as ButtonRn, Modal } from 'react-native';
 import { Card, CardSection, Button, Confirm, Input } from './common';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -7,11 +7,12 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Moment from 'moment';
 import { categoryUpdate, descriptionUpdate, amountUpdate, expenseAdd } from '../actions';
 import { connect } from 'react-redux';
+import Calculator from './Calculator';
 
 
 class ExpensesAdd extends Component {
     
-    state = { isDatePickerVisible: false, date: Moment(new Date()).format('YYYY-MM-DD') };
+    state = { isDatePickerVisible: false, date: Moment(new Date()).format('YYYY-MM-DD'), calculatorVisible: false };
 
     componentWillMount() {
         console.log('DEBUG123', this.props);
@@ -21,6 +22,8 @@ class ExpensesAdd extends Component {
         this.props.navigation.setParams({
             'onRight': this.save
         });
+
+        this.setState({ calculatorVisible: false });
     }
 
     save = () => {
@@ -71,8 +74,6 @@ class ExpensesAdd extends Component {
         return (items);
     }
 
-   
-
     render() {
         return (
             <Card>
@@ -117,6 +118,26 @@ class ExpensesAdd extends Component {
                             underlineColorAndroid={'transparent'}
                             //keyboardType="visible-password"
                         />
+                    </View>
+                    <View style={{  }} >
+                        <Icon name="calculator" size={30} color="#118ab2" onPress={() => { this.setState({ calculatorVisible: true })} } />
+                        <Modal
+                            visible={this.state.calculatorVisible}
+                            transparent
+                            animationType="slide"
+                            onRequestClose={() => {}}
+                            >
+                                <View style={{flex: 1, backgroundColor: 'red',width1:400, height1:400}}>
+                                    <Calculator onSave={(value) => {
+                                        //let t = this.state.currentValue;
+                                        console.log('on save ',value); 
+                                        this.props.amountUpdate(value)
+                                        this.setState({ calculatorVisible: false })
+                                        }}
+                                        onCancel={() => {this.setState({ calculatorVisible: false })}}
+                                    />
+                                </View>
+                        </Modal>
                     </View>
 
                 </CardSection>
