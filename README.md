@@ -1,14 +1,13 @@
 
 
 # Android React Native App
-A Android app to keep track of my monthly expenses.  The data is synced with a AWS DynamoDB database.
+An Android app to keep track of my monthly expenses.  The data is synced with a AWS DynamoDB database.
 
 The backend repo can be found here todo
 
 AWS Cognito Credentials must be added to this the authConfig.js file.
 
-<img src="app_images/expense_overview.png" width="200" height1="200"> 
-<img src="app_images/menu.png" width="200" height1="200">
+<img src="app_images/expense_overview.png" width="200" height1="200"> <img src="app_images/menu.png" width="200" height1="200">
 <img src="app_images/expense_add.png" width="200" height1="200">
 <img src="app_images/calendar.png" width="200" height1="200">
 <img src="app_images/calculator.png" width="200" height1="200">
