@@ -166,7 +166,8 @@ const getUserDataFromServer = async (login, loginToken, date, type) => {
 };
 
 const getCategories = (loginToken, login, type) => {
-    return axios.get(`${config.server.API}/categories?userId=${login}&type=${type}`,{
+    const loginUrlEncoded = encodeURIComponent(`${login}`);
+    return axios.get(`${config.server.API}/categories?userId=${loginUrlEncoded}&type=${type}`,{
         headers: {
           Authorization: loginToken
         }
@@ -179,7 +180,8 @@ const getCategories = (loginToken, login, type) => {
 };
 
 const getTransactions = (loginToken, login, dateBegin, dateEnd, type) => {
-    return axios.get(`${config.server.API}/transactions?userId=${login}&dateBegin=${dateBegin}&dateEnd=${dateEnd} 24:0:0&type=${type}`,{
+    const loginUrlEncoded = encodeURIComponent(`${login}`);
+    return axios.get(`${config.server.API}/transactions?userId=${loginUrlEncoded}&dateBegin=${dateBegin}&dateEnd=${dateEnd} 24:0:0&type=${type}`,{
         headers: {
           Authorization: loginToken
         }
