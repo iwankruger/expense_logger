@@ -6,7 +6,7 @@ A Android app to keep track of my monthly expenses.  The data is synced with a A
 The backend repo can be found here todo
 
 AWS Cognito Credentials must be added to this the authConfig.js file.
-![](client_images/expense_overview.png | width=400)
+![](client_images/expense_overview.png)
 ![](client_images/menu.png | width=400)
 ![](client_images/expense_add.png | width=400)
 ![](client_images/calendar.png | width=400)
