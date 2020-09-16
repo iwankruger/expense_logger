@@ -1,7 +1,7 @@
 
 
 # Android React Native App
-An Android app to keep track of my monthly expenses.  The data is synced with a AWS DynamoDB database.
+An Android app to keep track of my monthly expenses.  The data is synced with an AWS DynamoDB database.
 
 The backend repo can be found here todo
 
