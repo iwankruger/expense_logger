@@ -7,7 +7,7 @@ The backend repo can be found here todo
 
 AWS Cognito Credentials must be added to this the authConfig.js file.
 
-![](client_images/expense_overview.png)  
+![expense_overview](client_images/expense_overview.png)  
 
 ![](client_images/menu.png | width=400)  
 
