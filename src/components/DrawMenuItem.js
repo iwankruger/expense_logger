@@ -12,15 +12,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 class DrawMenuItem extends Component {
 
-    //onRowPress() {
-      //console.log('click ', this.props.menuSelected);
-      //console.warn('hello world');
-      //Actions.scan();
-      //this.props.menuItemSelected(this.props.menuSelected);
-      //console.log('menu itemSelected');
-    //}
-
-
     render() {
         const title = this.props.title;
         const text = this.props.text;

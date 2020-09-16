@@ -16,21 +16,18 @@ import { Actions } from 'react-native-router-flux';
 class MenuItem extends Component {
 
     componentWillMount() {
-        console.log('DEBUG', this.props);
     }
 
     onButtonPress(text) {
         //this.props.expenseAdd('add');
         const { category, categoryId } = this.props.data;
         const categories = this.props.categories;
-        console.log(categories);
         Actions.expensesAdd({ categoryId, category, categories });
     }
 
     showExpenseDetail() {
         const { category, categoryId } = this.props.data;
         const expenses = this.props.expenses;
-        console.log('CCCCCCCLLLLLLIIIIIIIICCCCCCCCCCKKKKKKKK ');
         Actions.expensesOverviewDetail({ categoryId, category, expenses });
     }
 
@@ -38,8 +35,6 @@ class MenuItem extends Component {
         const { categoryId, category, budget, remaining, total } = this.props.data;
         const { currency } = this.props.settings;
 
-        console.log('ITEM ', this.props.data);
-        
         // calculate graph values
         let spendPercentage = (total / budget) * 100;
         
@@ -159,12 +154,5 @@ const {
     debug
 } = styles;
 
-
-const mapStateToProps = state => {
-    console.log('PROP', state.admin);
-    return {
-        
-    };
-};
 
 export default MenuItem;

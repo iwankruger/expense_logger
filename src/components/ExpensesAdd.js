@@ -15,7 +15,6 @@ class ExpensesAdd extends Component {
     state = { isDatePickerVisible: false, date: Moment(new Date()).format('YYYY-MM-DD'), calculatorVisible: false };
 
     componentWillMount() {
-        console.log('DEBUG123', this.props);
         this.props.categoryUpdate(this.props.category);
 
         // link save button in navigation to function
@@ -27,8 +26,6 @@ class ExpensesAdd extends Component {
     }
 
     save = () => {
-        console.log('Add save');
-        
         const categorySelected = this.props.categorySelected;    
         const categories = this.props.categories;
         const description = this.props.description;
@@ -49,8 +46,6 @@ class ExpensesAdd extends Component {
 
     showDatePicker = () => {
         this.setState({ isDatePickerVisible: true });
-        console.log('show picket')
-        console.log(this.props)
     }
 
     hideDatePicker = () => {
@@ -66,8 +61,6 @@ class ExpensesAdd extends Component {
     renderPickerData = () => {
         const categories = this.props.categories;
         const items = [];
-        console.log('CCCC ', categories);
-        //console.log('CCCC ', categories[0].category);
         for (let i = 0; i < categories.length; i++) {
             items.push(<Picker.Item key={`${categories[i].categoryId}`} label={`${categories[i].category}`} value={`${categories[i].category}`} />);
         }
@@ -83,7 +76,6 @@ class ExpensesAdd extends Component {
                             style={{ flex: 1 }}
                             selectedValue={this.props.categorySelected}
                             onValueChange={value => { 
-                                console.log('S ',value);
                                 this.props.categoryUpdate(value); 
                             }}
                         >
@@ -129,8 +121,6 @@ class ExpensesAdd extends Component {
                             >
                                 <View style={{flex: 1, backgroundColor: 'red',width1:400, height1:400}}>
                                     <Calculator onSave={(value) => {
-                                        //let t = this.state.currentValue;
-                                        console.log('on save ',value); 
                                         this.props.amountUpdate(value)
                                         this.setState({ calculatorVisible: false })
                                         }}

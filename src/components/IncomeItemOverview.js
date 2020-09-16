@@ -19,14 +19,6 @@ class IncomeItemOverview extends Component {
        
     }
 
-    // onButtonPress(text) {
-    //     //this.props.expenseAdd('add');
-    //     const { category, categoryId } = this.props.data;
-    //     const categories = this.props.categories;
-    //     console.log(categories);
-    //     Actions.expensesAdd({ categoryId, category, categories });
-    // }
-
     addBoldStyling() {
 
     }
@@ -121,13 +113,5 @@ const {
     bodyStyle,
     debug
 } = styles;
-
-
-const mapStateToProps = state => {
-    console.log('PROP', state.admin);
-    return {
-        
-    };
-};
 
 export default IncomeItemOverview;

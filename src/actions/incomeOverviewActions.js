@@ -14,34 +14,7 @@ import Moment from 'moment';
 import * as config from '../../config';
 import axios from 'axios';
 
-
-// export const synchroniseStatus = () => {
-
-//     return async (dispatch) => {
-//         try {
-//             console.log('SYNCHRONISE STATUS');
-//             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
-            
-//             // if no transactions exist, exit
-//             if (!transactionUpload) return dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
-   
-//             // decode transactions into an object
-//             transactionUpload = JSON.parse(transactionUpload);
-            
-//             if (transactionUpload.length === 0) return dispatch({ type: EXPENSES_SYNCHRONISED, payload: true });
-
-//             return dispatch({ type: EXPENSES_SYNCHRONISED, payload: false });
-         
-//         } catch (e) {
-//             console.log(e);
-//         }
-//     }
-// }
-
 export const synchroniseIncome = (date) => {
-    console.log('ACTION synchronise income ', date);
-
-
 
     return async (dispatch) => {
         try {
@@ -50,7 +23,6 @@ export const synchroniseIncome = (date) => {
             loginData = JSON.parse(loginData);
             const loginToken = loginData.loginToken;
             const login = loginData.login;
-            console.log('LOGIN DATA ', loginData);
 
             // get stored transactions to upload/sync
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
@@ -58,8 +30,6 @@ export const synchroniseIncome = (date) => {
             // upload transactions
             if (transactionUpload) {
                 transactionUpload = JSON.parse(transactionUpload);
-
-                console.log('transactions to upload ', transactionUpload);
 
                 while (transactionUpload.length > 0) {
                     await addTransactions(loginToken, transactionUpload[0]);
@@ -78,7 +48,6 @@ export const synchroniseIncome = (date) => {
 
             // get user data in storage
             let userDataLocal = await AsyncStorage.getItem('userDataLocal');
-            console.log('LOCAL ', userDataLocal);
 
             if (userDataLocal) {
                 userDataLocal = JSON.parse(userDataLocal);
@@ -89,8 +58,6 @@ export const synchroniseIncome = (date) => {
             userDataLocal.categories = userData.categories;
             userDataLocal.settings = userData.settings;
             userDataLocal[date] = userData.data;
-
-            console.log('SAVE DATA ', userDataLocal);
 
             // store data to local device
             await AsyncStorage.setItem('userDataLocal', JSON.stringify(userDataLocal));
@@ -111,8 +78,6 @@ const addTransactions = (loginToken, transaction) => {
           Authorization: loginToken
         }
       }).then((result) => {
-        console.log('transaction upload ', result);
-        
         return result;
     }).catch((error) => {
         throw error;
@@ -125,17 +90,14 @@ const getUserDataFromServer = async (login, loginToken, date) => {
     try {
         // set begin and end date of current month
         date = new Date(date);
-        console.log('DATEE ', date);
         let dateBegin = new Date(date.getFullYear(), date.getMonth(), 1);
         let dateEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         dateBegin = Moment(dateBegin).format('YYYY-MM-DD');
         dateEnd = Moment(dateEnd).format('YYYY-MM-DD');
 
         const categories = await getCategories(loginToken, login);
-        console.log('categories ', categories);
 
         const transactions = await getTransactions(loginToken, login, dateBegin, dateEnd);
-        console.log('transactions ', transactions);
 
         return { categories, transactions };
     } catch (error) {
@@ -151,7 +113,6 @@ const getCategories = (loginToken, login) => {
       }).then((categories) => { 
         return categories.data;
     }).catch((error) => {
-        console.log('error get cat ', error);
         throw error;
     });       
 };
@@ -162,7 +123,6 @@ const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
           Authorization: loginToken
         }
       }).then((transactions) => {
-        console.log('GET  transactions result ', transactions);
         
         return transactions.data;
     }).catch((error) => {
@@ -173,9 +133,6 @@ const getTransactions = (loginToken, login, dateBegin, dateEnd) => {
 const userDataFormat = (categories, transactions, date) => {
 
     const data = [];
-    console.log('CAT ', categories);
-    console.log('CAT ', transactions);
-
     // calculate total for each category 
     const transactionTotals = {};
     for (let i = 0; i < transactions.length; i++) {
@@ -221,36 +178,3 @@ const userDataFormat = (categories, transactions, date) => {
     return userData;
 
 };
-
-
-
-// export const setMonth = (date) => {
-//     console.log('ACTION setMonth ', date);
-//     date = Moment(date, 'MM-YYYY').format('YYYY-MM-01');
-//     console.log(date);
-  
-//     return async (dispatch) => {
-
-//         try {
-//             // get user data from local device
-//             let userDataLocal = await AsyncStorage.getItem('userDataLocal');
-            
-//             if (userDataLocal) {
-//                 userDataLocal = JSON.parse(userDataLocal);
-            
-//                 let userData = { categories: [], settings: null, data: [] };
-//                 if (userDataLocal && userDataLocal.settings && userDataLocal.categories && userDataLocal[date]) {
-//                     userData = { categories: userDataLocal.categories, settings: userDataLocal.settings, data: userDataLocal[date] };
-//                 }
-                
-//                 dispatch({ type: USER_DATA_INCOME, payload: userData });
-//             }
-
-        
-//             dispatch({ type: DATE_CHANGED, payload: date });
-        
-//         } catch (e) {
-//             console.log(e);
-//         }
-//     };
-// };

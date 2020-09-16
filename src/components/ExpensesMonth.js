@@ -11,10 +11,7 @@ import Moment from 'moment';
 class ExpensesMonth extends Component {
 
     componentWillMount() {
-        console.log('DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGG');
-
         const status = this.props.synchroniseStatusFlag;
-        console.log('STATUS ',this.props.synchroniseStatusFlag);
         this.props.synchroniseStatus();
         // link save button in navigation to function
         this.props.navigation.setParams({
@@ -29,24 +26,9 @@ class ExpensesMonth extends Component {
 
         const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Expenses`;
         this.props.navigation.setParams({ title });
-
-        // this.props.navigation.setParams({
-        //     //'rightTitle': 'test',
-        //     //rightButtonTextStyle: {color: '#06d6a0'},
-        //     rightButtonTextStyle: {color: '#ef476f'},
-        // });
-        // this.props.navigation.setParams({
-        //     'titleStyle': {color:'red'}
-        // });
-
-
-        
     }
 
-    
-
     componentDidUpdate(prevProps) {
-        console.log(`${prevProps.synchroniseStatusFlag} == ${this.props.synchroniseStatusFlag}`);
         if (prevProps.synchroniseStatusFlag !== this.props.synchroniseStatusFlag) {
             if (this.props.synchroniseStatusFlag) return this.syncTextGreen();
 
@@ -57,9 +39,6 @@ class ExpensesMonth extends Component {
             const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Expenses`;
             this.props.navigation.setParams({ title });
         }
-
-        
-
     }
 
     syncTextRed() {
@@ -77,10 +56,8 @@ class ExpensesMonth extends Component {
     }
 
     synchronise = () => {
-       console.log('synchronise'); 
        this.props.synchronise(this.props.date);
     }
-
     
     renderNetIncome() {
         if (!this.props.userData) return;
@@ -113,13 +90,10 @@ class ExpensesMonth extends Component {
 
         if (!this.props.userData) return;
 
-        console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRR ',this.props.userData);
         const { expenseOverview, settings, categoriesExpense, expenses } = this.props.userData;
 
         if (!expenseOverview) return;
 
-        console.log('DEBUG', settings);
-        console.log('GGG ');
         for (let i = 0; i < expenseOverview.length; i++) {
             items.push(<ExpenseItemOverview key={`${i}`} label={`${i}`} value={`${i}`} data={expenseOverview[i]} settings={settings} categories={categoriesExpense} expenses={expenses} />);
         }
@@ -141,7 +115,6 @@ class ExpensesMonth extends Component {
 // the task of this helper is to get the state back 
 // into the form from the state object
 const mapStateToProps = state => {
-    console.log('VIEW ', state.expenseItemOverviewReducer.date);
     return {
         // properties specified auth in reducers/index.js and email in reducers/AuthReducer.js
         // now available in the component as this.props.email

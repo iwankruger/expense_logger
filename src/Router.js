@@ -34,12 +34,12 @@ const RouterComponent = () => {
                         //tintColor={'#073b4c'}
                     >
                         <Scene key="expenses" component={ExpensesMonth} title={title} initial 
-                            onRight={() => { console.log('sync'); synchroniseWithServer(); }}
+                            onRight={() => { synchroniseWithServer(); }}
                             rightTitle="Sync" 
                             drawer={true}
                         />
                         <Scene key="income" component={IncomeOverview} title={title} 
-                            onRight={() => { console.log('sync'); synchroniseWithServer(); }}
+                            onRight={() => { synchroniseWithServer(); }}
                             rightTitle="Sync" 
                             drawer={true}
                         />

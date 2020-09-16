@@ -23,7 +23,6 @@ export const categoryUpdateIncome = (category) => {
 };
 
 export const incomeGrossUpdate = (grossAmount) => {
-    console.log('INCOME ACTION ', grossAmount);
     return {
         type: INCOME_GROSS_UPDATED,
         payload: grossAmount
@@ -31,7 +30,6 @@ export const incomeGrossUpdate = (grossAmount) => {
 };
 
 export const incomeTaxUpdate = (taxAmount) => {
-    console.log('INCOME ACTION ', taxAmount);
     return {
         type: INCOME_TAX_UPDATED,
         payload: taxAmount
@@ -39,7 +37,6 @@ export const incomeTaxUpdate = (taxAmount) => {
 };
 
 export const incomeUifUpdate = (uifAmount) => {
-    console.log('INCOME ACTION ', uifAmount);
     return {
         type: INCOME_UIF_UPDATED,
         payload: uifAmount
@@ -47,7 +44,6 @@ export const incomeUifUpdate = (uifAmount) => {
 };
 
 export const incomeOtherTaxUpdate = (otherTaxAmount) => {
-    console.log('INCOME ACTION ', otherTaxAmount);
     return {
         type: INCOME_OTHER_TAX_UPDATED,
         payload: otherTaxAmount
@@ -55,7 +51,6 @@ export const incomeOtherTaxUpdate = (otherTaxAmount) => {
 };
 
 export const incomeAfterTaxUpdate = (afterTaxAmount) => {
-    console.log('INCOME ACTION ', afterTaxAmount);
     return {
         type: INCOME_AFTER_TAX_UPDATED,
         payload: afterTaxAmount
@@ -66,20 +61,6 @@ export const incomeAfterTaxUpdate = (afterTaxAmount) => {
 export const incomeAdd = ({ date, category, categoryId, description, 
     grossAmount, taxAmount, uifAmount,
     otherTaxAmount, afterTaxAmount }) => {
-
-    console.log('ACTION ADD date ', date);
-    console.log('ACTION ADD expense ', category);
-    console.log('categoryId ', categoryId);
-    console.log('description ', description);
-    console.log('grossAmount ', grossAmount);
-    console.log('taxAmount ', taxAmount);
-    console.log('uifAmount ', uifAmount);
-    console.log('otherTaxAmount ', otherTaxAmount);
-    console.log('afterTaxAmount ', afterTaxAmount);
-    //date = `${date} ${Moment().format('hh:mm:ss.SSS [GMT]ZZ')}`; 
-    console.log(date);
-
-    
 
     return async (dispatch) => {
         try {
@@ -106,9 +87,6 @@ export const incomeAdd = ({ date, category, categoryId, description,
             if (otherTaxAmount) transactionData['otherTaxAmount'] = otherTaxAmount; 
             if (afterTaxAmount) transactionData['afterTaxAmount'] = afterTaxAmount; 
 
-
-            console.log('transactionData ', transactionData);
-
             // get stored transactions to upload/sync
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
             
@@ -119,8 +97,6 @@ export const incomeAdd = ({ date, category, categoryId, description,
             transactionUpload.push(transactionData);
             // encode transactions into a string
             transactionUpload = JSON.stringify(transactionUpload);
-
-            console.log('transactions to upload ', transactionUpload);
 
             await AsyncStorage.setItem('transactionUpload', transactionUpload);     
 

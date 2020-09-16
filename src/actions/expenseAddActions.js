@@ -9,7 +9,6 @@ import {
 import Moment from 'moment';
 
 export const categoryUpdate = (category) => {
-    console.log('ACTION ', category)
     return {
         type: CATEGORY_UPDATE,
         payload: category
@@ -31,15 +30,6 @@ export const amountUpdate = (amount) => {
 };
 
 export const expenseAdd = ({date, category, categoryId, description, value}) => {
-    console.log('ACTION ADD date ', date);
-    console.log('ACTION ADD expense ', category);
-    console.log('categoryId ', categoryId);
-    console.log('description ', description);
-    console.log('value ', value);
-    //date = `${date} ${Moment().format('hh:mm:ss.SSS [GMT]ZZ')}`; 
-    console.log(date);
-
-    
 
     return async (dispatch) => {
         try {
@@ -61,8 +51,6 @@ export const expenseAdd = ({date, category, categoryId, description, value}) => 
                 type: 'expense',
             };
 
-            console.log('transactionData ', transactionData);
-
             // get stored transactions to upload/sync
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
             
@@ -73,8 +61,6 @@ export const expenseAdd = ({date, category, categoryId, description, value}) => 
             transactionUpload.push(transactionData);
             // encode transactions into a string
             transactionUpload = JSON.stringify(transactionUpload);
-
-            console.log('transactions to upload ', transactionUpload);
 
             await AsyncStorage.setItem('transactionUpload', transactionUpload);     
 

@@ -13,7 +13,6 @@ class IncomeOverview extends Component {
     componentWillMount() {
      
         const status = this.props.synchroniseStatusFlag;
-        console.log('STATUS ',this.props.synchroniseStatusFlag);
         this.props.synchroniseStatus();
         // link save button in navigation to function
         this.props.navigation.setParams({
@@ -28,24 +27,12 @@ class IncomeOverview extends Component {
 
         const title = `${Moment(new Date(this.props.date)).format('MMMM Y')} Income`;
         this.props.navigation.setParams({ title });
-
-        // this.props.navigation.setParams({
-        //     //'rightTitle': 'test',
-        //     //rightButtonTextStyle: {color: '#06d6a0'},
-        //     rightButtonTextStyle: {color: '#ef476f'},
-        // });
-        // this.props.navigation.setParams({
-        //     'titleStyle': {color:'red'}
-        // });
-
-
-        
+ 
     }
 
     
 
     componentDidUpdate(prevProps) {
-        console.log(`${prevProps.synchroniseStatusFlag} == ${this.props.synchroniseStatusFlag}`);
         if (prevProps.synchroniseStatusFlag !== this.props.synchroniseStatusFlag) {
             if (this.props.synchroniseStatusFlag) return this.syncTextGreen();
 
@@ -76,7 +63,6 @@ class IncomeOverview extends Component {
     }
 
     synchronise = () => {
-       console.log('synchronise'); 
        this.props.synchronise(this.props.date);
     }
 
@@ -153,7 +139,6 @@ class IncomeOverview extends Component {
 // the task of this helper is to get the state back 
 // into the form from the state object
 const mapStateToProps = state => {
-    console.log('VIEW ', state.expenseItemOverviewReducer.date);
     return {
         // properties specified auth in reducers/index.js and email in reducers/AuthReducer.js
         // now available in the component as this.props.email

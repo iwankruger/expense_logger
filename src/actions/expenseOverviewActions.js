@@ -18,7 +18,6 @@ export const synchroniseStatus = () => {
 
     return async (dispatch) => {
         try {
-            console.log('SYNCHRONISE STATUS');
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
             
             // if no transactions exist, exit
@@ -38,9 +37,6 @@ export const synchroniseStatus = () => {
 }
 
 export const synchronise = (date) => {
-    console.log('ACTION synchronise ', date);
-
-
 
     return async (dispatch) => {
         try {
@@ -49,7 +45,6 @@ export const synchronise = (date) => {
             loginData = JSON.parse(loginData);
             const loginToken = loginData.loginToken;
             const login = loginData.login;
-            console.log('LOGIN DATA ', loginData);
 
             // get stored transactions to upload/sync
             let transactionUpload = await AsyncStorage.getItem('transactionUpload');
@@ -57,8 +52,6 @@ export const synchronise = (date) => {
             // upload transactions
             if (transactionUpload) {
                 transactionUpload = JSON.parse(transactionUpload);
-
-                console.log('transactions to upload ', transactionUpload);
 
                 while (transactionUpload.length > 0) {
                     await addTransactions(loginToken, transactionUpload[0]);
@@ -77,12 +70,8 @@ export const synchronise = (date) => {
             const userDataMonthIncome = await getUserDataFromServer(login, loginToken, date, 'income');
             const userDataIncome = userDataFormatIncome(userDataMonthIncome.categories, userDataMonthIncome.transactions);
 
-            console.log('INCOME ', userDataMonthIncome);
-            console.log('INCOME2 ', userDataIncome);
-
             // get user data in storage
             let userDataLocal = await AsyncStorage.getItem('userDataLocal');
-            console.log('LOCAL ', userDataLocal);
 
             if (userDataLocal) {
                 userDataLocal = JSON.parse(userDataLocal);
@@ -100,8 +89,6 @@ export const synchronise = (date) => {
                 incomes: userDataMonthIncome.transactions
             };
 
-            console.log('SAVE DATA ', userDataLocal);
-
             // store data to local device
             await AsyncStorage.setItem('userDataLocal', JSON.stringify(userDataLocal));
 
@@ -114,8 +101,6 @@ export const synchronise = (date) => {
                 expenses: userDataMonthExpense.transactions,
                 incomes: userDataMonthIncome.transactions
             };
-
-            console.log('DISPATCH DATA ',userData);
 
             dispatch({ type: USER_DATA, payload: userData });
             
@@ -132,9 +117,7 @@ const addTransactions = (loginToken, transaction) => {
         headers: {
           Authorization: loginToken
         }
-      }).then((result) => {
-        console.log('transaction upload ', result);
-        
+      }).then((result) => {   
         return result;
     }).catch((error) => {
         throw error;
@@ -147,17 +130,14 @@ const getUserDataFromServer = async (login, loginToken, date, type) => {
     try {
         // set begin and end date of current month
         date = new Date(date);
-        console.log('DATEE ', date);
         let dateBegin = new Date(date.getFullYear(), date.getMonth(), 1);
         let dateEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         dateBegin = Moment(dateBegin).format('YYYY-MM-DD');
         dateEnd = Moment(dateEnd).format('YYYY-MM-DD');
 
         const categories = await getCategories(loginToken, login, type);
-        console.log('categories ', categories);
 
         const transactions = await getTransactions(loginToken, login, dateBegin, dateEnd, type);
-        console.log('transactions ', transactions);
 
         return { categories, transactions };
     } catch (error) {
@@ -174,7 +154,6 @@ const getCategories = (loginToken, login, type) => {
       }).then((categories) => { 
         return categories.data;
     }).catch((error) => {
-        console.log('error get cat ', error);
         throw error;
     });       
 };
@@ -185,9 +164,7 @@ const getTransactions = (loginToken, login, dateBegin, dateEnd, type) => {
         headers: {
           Authorization: loginToken
         }
-      }).then((transactions) => {
-        console.log('GET  transactions result ', transactions);
-        
+      }).then((transactions) => {  
         return transactions.data;
     }).catch((error) => {
         throw error;
@@ -197,9 +174,6 @@ const getTransactions = (loginToken, login, dateBegin, dateEnd, type) => {
 const userDataFormat = (categories, transactions, date) => {
 
     const data = [];
-    console.log('CAT ', categories);
-    console.log('CAT ', transactions);
-
     // calculate total for each category 
     const transactionTotals = {};
     for (let i = 0; i < transactions.length; i++) {
@@ -229,8 +203,6 @@ const userDataFormat = (categories, transactions, date) => {
         data.push({ ...categories[i], remaining, total, date: dateMonth });
     }
 
-    console.log('OVERVIEW PUSH ', data);
-
     totalRemaining += totalBudget - totalAmount;
     data[0].budget = totalBudget;
     data[0].remaining = totalRemaining;
@@ -251,8 +223,6 @@ const userDataFormat = (categories, transactions, date) => {
 const userDataFormatIncome = (categories, transactions, date) => {
 
     const data = [];
-    console.log('CAT income ', categories);
-    console.log('CAT income', transactions);
     data.push({ category: 'Total', incomeGrossAmount: 0, incomeTaxAmount: 0, incomeAfterTaxAmount: 0, date: dateMonth });
     
     for (let i = 0; i < transactions.length; i++) {
@@ -278,8 +248,6 @@ const userDataFormatIncome = (categories, transactions, date) => {
         categories
     };
 
-    console.log('OVERVIEW PUSH INCOME ', data);
-
     return userData;
 
 };
@@ -287,9 +255,7 @@ const userDataFormatIncome = (categories, transactions, date) => {
 
 
 export const setMonth = (date) => {
-    console.log('ACTION setMonth ', date);
     date = Moment(date, 'MM-YYYY').format('YYYY-MM-01');
-    console.log(date);
   
     return async (dispatch) => {
 
@@ -322,8 +288,6 @@ export const setMonth = (date) => {
                 dispatch({ type: USER_DATA, payload: userData });
             }
 
-
-        
             dispatch({ type: DATE_CHANGED, payload: date });
         
         } catch (e) {
@@ -331,151 +295,3 @@ export const setMonth = (date) => {
         }
     };
 };
-// #set($bulk = $input.path('$'))
-// {
-//     "RequestItems": {  
-//         "dev-transactions": [
-//             #foreach($record in $bulk)
-//             {
-//                 "PutRequest": {
-//                     "Item": {
-//                         "userId": {
-//                             "S": "$record.userId"
-//                         },
-//                         "date": {
-//                             "S": "$record.date"
-//                         },
-//                         "category": {
-//                             "S": "$record.category"
-//                         },
-//                         "categoryId": {
-//                             "N": "$record.categoryId"
-//                         },
-//                         "description": {
-//                             "S": "$record.description"
-//                         },
-//                         "value": {
-//                             "N": "$record.value"
-//                         }
-//                     }
-//                 }
-//             }
-//             #if($foreach.hasNext), 
-//             #end
-//             #end
-//             ]
-    
-//     }
-// }
-
-
-// {
-//     "TableName": "dev-transactions",
-//         "Item": {
-//             "userId": {
-//                 "S": "$input.path('$.userId')"
-//             },
-//             "date": {
-//                 "S": "$input.path('$.date')"
-//             },
-//             "category": {
-//                 "S": "$input.path('$.category')"
-//             },
-//             "categoryId": {
-//                 "N": "$input.path('$.categoryId')"
-//             },
-//             "description": {
-//                 "S": "$input.path('$.description')"
-//             },
-//             "value": {
-//                 "N": "$input.path('$.value')"
-//             }
-//         }
-
-
-// }
-
-// #set($bulk = $input.path('$'))
-// {
-//     "RequestItems": {
-//         "dev-transactions": [
-//             {
-//                 "PutRequest": {
-//                     "Item": {
-//                         "userId": {
-//                             "S": "44"
-//                         },
-//                         "date": {
-//                             "S": "1"
-//                         },
-//                         "category": {
-//                             "S": "food"
-//                         },
-//                         "categoryId": {
-//                             "N": "2"
-//                         },
-//                         "description": {
-//                             "S": "2"
-//                         },
-//                         "value": {
-//                             "N": "1"
-//                         }
-//                     }
-//                 }
-//             }
-//         ]
-
-//     }
-// }
-
-// {
-//     "RequestItems": {
-//         "dev-transactions": [
-//             {
-//                 "PutRequest": {
-//                     "Item":  {
-//                         "userId": {"S": "44"},
-//                         "date": {"S": "3"},
-//                         "category": {"S": "food"},
-//                         "categoryId": {"N": "2"},
-//                         "description": {"S": "2"},
-//                         "value": {"N": "1"}
-//                     }
-//                 }
-//             },
-//             {
-//                 "PutRequest": {
-//                     "Item":  {
-//                         "userId": {"S": "44"},
-//                         "date": {"S": "4"},
-//                         "category": {"S": "food"},
-//                         "categoryId": {"N": "2"},
-//                         "description": {"S": "2"},
-//                         "value": {"N": "1"}
-//                     }
-//                 }
-//             }
-//         ]
-//     }
-// }
-
-
-
-// {
-//     "RequestItems": {
-//         "dev-transactions": [
-//             {
-//                 "PutRequest": {
-//                     "Item":  {
-//                         "userId": {"S": "44"},
-//                         "date": {"S": "3"},
-//                         "category": {"S": "food"},
-//                         "categoryId": {"N": "2"},
-//                         "description": {"S": "2"},
-//                         "value": {"N": "1"}
-//                     }
-//                 }
-//             }
-//         ]
-//     }
-// }

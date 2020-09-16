@@ -17,27 +17,22 @@ import Moment from 'moment';
 class MenuItem extends Component {
 
     componentWillMount() {
-        console.log('DEBUG', this.props);
     }
 
     onButtonPress(text) {
         //this.props.expenseAdd('add');
         const { category, categoryId } = this.props.data;
         const categories = this.props.categories;
-        console.log(categories);
         Actions.expensesAdd({ categoryId, category, categories });
     }
 
     showExpenseDetail() {
         const { category, categoryId } = this.props.data;
         const expenses = this.props.expenses;
-        console.log('CCCCCCCLLLLLLIIIIIIIICCCCCCCCCCKKKKKKKK ');
         Actions.expensesOverviewDetail({ categoryId, category, expenses });
     }
 
     render() {
-        console.log('FFFFFFFFFFFFFFFFF ',this.props.financialData);
-
         if (!this.props.financialData) return (<View />);
 
         const { expensesTotal, incomeAfterTaxAmount, incomeNet, settings, expenses, incomes } = this.props.financialData;
@@ -72,7 +67,6 @@ class MenuItem extends Component {
             //const expenseDate = expenses[i].date;
             const expenseDayIndex = parseInt(Moment(expenses[i].date, 'YYYY-MM-DD hh:mm:ss.SSS [GMT]ZZ').format('DD')) - 1;
             const expenseAmount = expenses[i].expenseAmount;
-            console.log(expenseDayIndex);
             if (Number.isInteger(expenseDayIndex) && expenseDayIndex < monthLastDay) {
                 chartData[expenseDayIndex].expense += expenseAmount;
             }
@@ -87,7 +81,6 @@ class MenuItem extends Component {
             const otherTaxAmount = incomes[i].otherTaxAmount ? incomes[i].otherTaxAmount : 0;
             const incomeTaxAmount = taxAmount + uifAmount + otherTaxAmount;
             const incomeAfterTaxAmountDay = incomeGrossAmount - incomeTaxAmount;
-            console.log(expenseDayIndex);
             if (Number.isInteger(expenseDayIndex) && expenseDayIndex < monthLastDay) {
                 //chartData[expenseDayIndex].income += incomeAfterTaxAmountDay;
                 // a massive income value will cause small expenses not to be visible on graph
@@ -164,8 +157,6 @@ class MenuItem extends Component {
 
         const { categoryId, category, budget, remaining, total } = this.props.data;
         //const { currency } = this.props.settings;
-
-        console.log('ITEM ', this.props.data);
         
         // calculate graph values
         let spendPercentage = (total / budget) * 100;
@@ -281,12 +272,5 @@ const {
     debug
 } = styles;
 
-
-const mapStateToProps = state => {
-    console.log('PROP', state.admin);
-    return {
-        
-    };
-};
 
 export default MenuItem;

@@ -22,7 +22,6 @@ class IncomeAdd extends Component {
     state = { isDatePickerVisible: false, date: Moment(new Date()).format('YYYY-MM-DD') };
 
     componentWillMount() {
-        console.log('DEBUG123', this.props);
         this.props.categoryUpdateIncome(this.props.category);
 
         // link save button in navigation to function
@@ -31,9 +30,7 @@ class IncomeAdd extends Component {
         });
     }
 
-    save = () => {
-        console.log('Add save');
-        
+    save = () => {  
         const categorySelectedIncome = this.props.categorySelectedIncome;    
         const categories = this.props.categories;
         const description = this.props.description;
@@ -53,7 +50,6 @@ class IncomeAdd extends Component {
             }
         }
         
-
         this.props.incomeAdd({ 
             date, 
             category: categorySelectedIncome, 
@@ -68,8 +64,6 @@ class IncomeAdd extends Component {
 
     showDatePicker = () => {
         this.setState({ isDatePickerVisible: true });
-        console.log('show picket')
-        console.log(this.props)
     }
 
     hideDatePicker = () => {
@@ -85,8 +79,6 @@ class IncomeAdd extends Component {
     renderPickerData = () => {
         const categories = this.props.categories;
         const items = [];
-        console.log('CCCC ', categories);
-        //console.log('CCCC ', categories[0].category);
         for (let i = 0; i < categories.length; i++) {
             items.push(<Picker.Item key={`${categories[i].categoryId}`} label={`${categories[i].category}`} value={`${categories[i].category}`} />);
         }
@@ -104,7 +96,6 @@ class IncomeAdd extends Component {
                             style={{ flex: 1 }}
                             selectedValue={this.props.categorySelectedIncome}
                             onValueChange={value => { 
-                                console.log('S ',value);
                                 this.props.categoryUpdateIncome(value); 
                             }}
                         >

@@ -14,7 +14,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-    console.log('IncomeAddReducer ', action);
     switch (action.type) {
         case CATEGORY_UPDATE_INCOME:
             return { ...state, categorySelectedIncome: action.payload };

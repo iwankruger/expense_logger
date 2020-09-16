@@ -8,10 +8,8 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-    console.log('ExpenseAddReducer ', action);
     switch (action.type) {
         case CATEGORY_UPDATE:
-            console.log('reducer email changed');
             // must return a new object
             return { ...state, categorySelected: action.payload };
         case EXPENSE_ADD_DESCRIPTION_UPDATE:

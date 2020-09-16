@@ -25,11 +25,6 @@ export const handleNumber = (value, state) => {
     if (state.currentValue === "0") {
       return { currentValue: `${value}` };
     }
-    console.log('value');
-    console.log(value);
-    console.log({
-        currentValue: `${state.currentValue}${value}`
-      });
     return {
       currentValue: `${state.currentValue}${value}`
     };
@@ -76,21 +71,14 @@ class Calculator extends Component {
     state = initialState;
 
     componentWillMount() {
-        console.log('CALCULATOR', this.props);
-        
     }
 
     
 
     handleTap = (type, value) => {
-        console.log('click');
-        
 
         this.setState((state) => {
-            console.log(state);
             let newState = calculator(type, value, state);
-            console.log('new state');
-            console.log(newState);
             return newState;
         });
     };

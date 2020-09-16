@@ -22,17 +22,12 @@ class DrawerMenu extends Component {
         this.setState({ monthSelectedShow: false });
 
         if (event === ACTION_DISMISSED) {
-            console.log('DDDDD');
-            
+            // todo
         }
 
         if (event === ACTION_DATE_SET) {
-            console.log('SSSS');
-            this.props.setMonth(newDate);
-            
+            this.props.setMonth(newDate); 
         }
-        
-
     }
 
     render() {
@@ -68,69 +63,6 @@ class DrawerMenu extends Component {
             </ScrollView>
         );
     }
-
-    
-    // //let monthSelectedShow = false;
-    // state = { monthSelected: `${new Date()}`, monthSelectedShow: false };
-
-    // //showPicker = useCallback((value) => setShow(value), []);
-
-    // showMonthSelector = () => {
-    //     this.setState({ monthSelectedShow: true });
-    //     console.log('show picket')
-    //     console.log(this.props)
-    // }
-
-    // render() {
-    //     return (
-            
-    //         <View>
-    //             <View style={{}}>
-    //                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        
-    //                     <Text style={{ color: '#f9f9f9', marginTop: '3%', fontFamily: 'sans-serif-condensed' }}>{`Hi `}</Text>
-    //                     <Text style={{ color: '#f9f9f9', fontFamily: 'sans-serif-condensed' }}>{`email`}</Text>
-    //                 </View>
-    //             </View>
-    //             <CardSection>
-    //                 <Button onPress={ Actions.pop }>Close</Button>
-    //             </CardSection>
-    //             <Card>
-    //                 <CardSection>
-    //                     <View>
-    //                         <Text>Scanner</Text>
-    //                     </View>
-    //                 </CardSection>
-    //             </Card>
-    //             <SafeAreaView>
-    //                 <Text>Month Year Picker Example</Text>
-    //                 <Text>{this.state.monthSelected}</Text>
-    //                 <TouchableOpacity onPress={() => this.showMonthSelector()}>
-    //                     <Text>OPEN</Text>
-    //                 </TouchableOpacity>
-    //                 {this.state.monthSelectedShow && (
-    //                 <MonthPicker
-    //                     onChange={() => {}}
-    //                     value={'12-1999'}
-    //                     minimumDate={new Date(2000, 1)}
-    //                     maximumDate={new Date(2099, 12)}
-    //                     enableAutoDarkMode={false}
-    //                 />
-    //                 )}
-                    
-                    
-                 
-    //             </SafeAreaView>
-    //             <Text>Item 1</Text>
-    //             <Text>Item 2</Text>
-    //             <Text>Item 3</Text>
-    //             <Text>Item 4</Text>
-    //             <Text>Item 5</Text>
-    //             <Text>Item 6</Text>
-
-    //         </View>
-    //     );
-    // }
 }
 
 const styles = {
