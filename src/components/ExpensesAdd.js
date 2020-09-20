@@ -91,7 +91,7 @@ class ExpensesAdd extends Component {
                             autoCorrect={false}
                             style={styles.inputStyle}
                             value={this.props.description}
-                            onChangeText={(value) => { this.props.descriptionUpdate(value); }}
+                            onChangeText={(value) => { this.props.descriptionUpdate(value.trim()); }}
                             //underlineColorAndroid='transparent'
                             underlineColorAndroid='rgba(0,0,0,0)' 
                             //keyboardType="visible-password"
@@ -105,7 +105,7 @@ class ExpensesAdd extends Component {
                             autoCorrect={false}
                             style={styles.inputStyle}
                             value={this.props.amount}
-                            onChangeText={(value) => { this.props.amountUpdate(value); }}
+                            onChangeText={(value) => { this.props.amountUpdate(value.trim()); }}
                             //underlineColorAndroid="transparent"
                             underlineColorAndroid={'transparent'}
                             //keyboardType="visible-password"
@@ -121,7 +121,7 @@ class ExpensesAdd extends Component {
                             >
                                 <View style={{flex: 1, backgroundColor: 'red',width1:400, height1:400}}>
                                     <Calculator onSave={(value) => {
-                                        this.props.amountUpdate(value)
+                                        this.props.amountUpdate(value.trim())
                                         this.setState({ calculatorVisible: false })
                                         }}
                                         onCancel={() => {this.setState({ calculatorVisible: false })}}

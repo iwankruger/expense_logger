@@ -16,7 +16,7 @@ class LoginForm extends Component {
         // call action emailChanged that will set EMAIL_CHANGED action
         // the action will then be dispatched to the reducers
         // the AuthReducer will be invoked with the EMAIL_CHANGED action
-        this.props.emailChanged(text);
+        this.props.emailChanged(text.trim());
     }
 
     onPasswordChange(text) {

@@ -111,7 +111,7 @@ class IncomeAdd extends Component {
                             autoCorrect={false}
                             style={styles.inputStyle}
                             value={this.props.description}
-                            onChangeText={(value) => { this.props.descriptionUpdate(value); }}
+                            onChangeText={(value) => { this.props.descriptionUpdate(value.trim()); }}
                             //underlineColorAndroid='transparent'
                             underlineColorAndroid='rgba(0,0,0,0)' 
                             //keyboardType="visible-password"
@@ -125,7 +125,7 @@ class IncomeAdd extends Component {
                             autoCorrect={false}
                             style={styles.inputStyle}
                             value={this.props.grossAmount}
-                            onChangeText={(value) => { this.props.incomeGrossUpdate(value); }}
+                            onChangeText={(value) => { this.props.incomeGrossUpdate(value.trim()); }}
                             //underlineColorAndroid="transparent"
                             underlineColorAndroid={'transparent'}
                             //keyboardType="visible-password"
@@ -140,7 +140,7 @@ class IncomeAdd extends Component {
                             autoCorrect={false}
                             style={styles.inputStyle}
                             value={this.props.taxAmount}
-                            onChangeText={(value) => { this.props.incomeTaxUpdate(value); }}
+                            onChangeText={(value) => { this.props.incomeTaxUpdate(value.trim()); }}
                             //underlineColorAndroid="transparent"
                             underlineColorAndroid={'transparent'}
                             //keyboardType="visible-password"
@@ -154,7 +154,7 @@ class IncomeAdd extends Component {
                             autoCorrect={false}
                             style={styles.inputStyle}
                             value={this.props.uifAmount}
-                            onChangeText={(value) => { this.props.incomeUifUpdate(value); }}
+                            onChangeText={(value) => { this.props.incomeUifUpdate(value.trim()); }}
                             //underlineColorAndroid="transparent"
                             underlineColorAndroid={'transparent'}
                             //keyboardType="visible-password"
@@ -168,7 +168,7 @@ class IncomeAdd extends Component {
                             autoCorrect={false}
                             style={styles.inputStyle}
                             value={this.props.otherTaxAmount}
-                            onChangeText={(value) => { this.props.incomeOtherTaxUpdate(value); }}
+                            onChangeText={(value) => { this.props.incomeOtherTaxUpdate(value.trim()); }}
                             //underlineColorAndroid="transparent"
                             underlineColorAndroid={'transparent'}
                             //keyboardType="visible-password"
