@@ -3,7 +3,7 @@
 # Android React Native App
 An Android app to keep track of my monthly expenses.  The data is synced with an AWS DynamoDB database.
 
-The backend repository can be found [here]("https://github.com/iwankruger/expense_logger_backend").
+The backend repository can be found [here](https://github.com/iwankruger/expense_logger_backend).
 
 AWS Cognito Credentials must be added to the authConfig.js file.
 
