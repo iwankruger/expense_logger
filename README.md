@@ -7,7 +7,7 @@ This project contains source code and supporting files for the following post.
 http://iwankruger.com/posts/expense_logger
 
 
-![](app_images/expense_logger_system_overview.png)
+<img src="app_images/expense_logger_system_overview.png" width="400" height1="200">
 
 The backend repository can be found [here](https://github.com/iwankruger/expense_logger_backend).
 
