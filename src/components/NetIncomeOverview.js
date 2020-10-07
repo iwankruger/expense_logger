@@ -41,11 +41,18 @@ class MenuItem extends Component {
 
         const { currency } = settings;
 
-        if (!expenses || !Array.isArray(expenses) || !expenses.length > 0) return (<View />);
-        if (!incomes || !Array.isArray(incomes) || !incomes.length > 0) return (<View />);
+        // get date for transaction
+        let transactionDate = null;
+        if (expenses && Array.isArray(expenses) && expenses.length > 0 && expenses[0].date) {
+            transactionDate = expenses[0].date;
+        } else if (incomes && Array.isArray(incomes) && incomes.length > 0) {
+            transactionDate = incomes[0].date;
+        }
+        
+        if (!transactionDate) return (<View />);
 
         //const dateRange = Moment(expenses[0].date).format();
-        const dateMonth = Moment(expenses[0].date, 'YYYY-MM-DD hh:mm:ss.SSS [GMT]ZZ').format('YYYY-MM-01');
+        const dateMonth = Moment(transactionDate, 'YYYY-MM-DD hh:mm:ss.SSS [GMT]ZZ').format('YYYY-MM-01');
         const date = new Date(dateMonth);
         let monthLastDay = parseInt(Moment(new Date(date.getFullYear(), date.getMonth() + 1, 0)).format('DD'));
 
